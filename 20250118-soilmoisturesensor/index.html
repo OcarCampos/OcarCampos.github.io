@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Sensor de humedad del suelo | iPushPedals</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://ipushpedals.com/style.css">
+    <link rel="stylesheet" href="https://ipushpedals.com/color/green.css">
+
+        <link rel="stylesheet" href="https://ipushpedals.com/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://ipushpedals.com/font-hack-subset.css">
+
+    <meta name="description" content="">
+
+    <meta property="og:description" content="">
+    <meta property="og:title" content="Sensor de humedad del suelo | iPushPedals">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ipushpedals.com/20250118-soilmoisturesensor/">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:title" content="Sensor de humedad del suelo | iPushPedals">
+    <meta property="twitter:domain" content="ipushpedals.com">
+    <meta property="twitter:url" content="https://ipushpedals.com/20250118-soilmoisturesensor/">
+
+                <link rel="alternate" type="application/rss+xml" title="iPushPedals RSS Feed" href="https://ipushpedals.com/rss.xml" />
+                <link rel="alternate" type="application/atom+xml" title="iPushPedals Atom Feed" href="https://ipushpedals.com/atom.xml" />
+    </head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="/" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            I Push Pedals
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://ipushpedals.com">blog</a></li>
+            
+                <li><a href="https://ipushpedals.com/archive">archive</a></li>
+            
+                <li><a href="https://ipushpedals.com/tags">tags</a></li>
+            
+                <li><a href="https://ipushpedals.com/about">about</a></li>
+            
+                <li><a href="https://github.com/OcarCampos/" target="_blank" rel="noopener noreferrer">github</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+    <div class="post">
+        
+    <h1 class="post-title"><a href="https://ipushpedals.com/20250118-soilmoisturesensor/">Sensor de humedad del suelo</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2025-01-18
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://ipushpedals.com/tags/arduino/">#Arduino</a>&nbsp;
+                <a class="post-tag" href="https://ipushpedals.com/tags/gardening/">#Gardening</a>&nbsp;
+                <a class="post-tag" href="https://ipushpedals.com/tags/iot/">#IoT</a>&nbsp;
+                <a class="post-tag" href="https://ipushpedals.com/tags/log/">#Log</a>&nbsp;
+                <a class="post-tag" href="https://ipushpedals.com/tags/smartplant/">#SmartPlant</a></span>
+    
+
+        <div class="post-content">
+            <h1 id="smart-plant-sensor-de-humedad-de-suelo">Smart Plant: Sensor de humedad de suelo..</h1>
+<p>El año pasado comencé a ocupar mi carpa de cultivo indoor para plantar vegetales de consumo y de paso
+implementar un sistema de control usando IoT. Para esto me incliné por arduino por la facilidad de
+programación y aprendizaje en la creación de prototipos. El sistema funciona muy bien pero de a poco he ido iterando
+componentes y mejorando el sistema para llegar a algo que me deje tranquilo. Advertencia, estoy recién comenzando.</p>
+<p>En este post no voy a describir todo el proceso ni cada una de las partes que estoy ocupando, sino que me voy a enfocar en un componente particular,
+el sensor de humedad de suelo.</p>
+
+  <figure class="center" >
+    <img src="/img/2025-SmartPlant/MiniGarden.jpg" style="width: 75%;" decoding="async" loading="lazy"/>
+    
+      <figcaption class="center" style="font-style: italic;"><p>Huerta Indoor</p>
+</figcaption>
+    
+  </figure>
+
+<span id="continue-reading"></span><h2 id="sensor-de-humedad-resistivo">Sensor de humedad resistivo.</h2>
+<p>Existen variedad de sensores de humedad de suelo en el mercado, capacitivos y resistivos. En mi caso, por simpleza
+y costo, decidí utilizar el sensor de humedad de suelo resistivo. Estos son extremadamente baratos, es posible
+comprarlos por aliexpress y son muy fiables dado que funcionan midiendo la capacidad de conducción de electricidad
+del medio en el que se insertan. En fácil, son dos fierros que miden que tanta corriente pasa por el suelo donde están enterrados.</p>
+
+  <figure class="center" >
+    <img src="/img/2025-SmartPlant/Sensor1.jpg" style="width: 75%;" decoding="async" loading="lazy"/>
+    
+      <figcaption class="center" style="font-style: italic;"><p>Primera versión del sensor de mi sistema</p>
+</figcaption>
+    
+  </figure>
+
+<p>En aliexpress un sensor de humedad resistivo cuesta alrededor de USD$1.5 dolares, incluso algunos se pueden
+encontrar por menos de USD$1.</p>
+<p>El problema de estos sensores, es que su durabilidad es extremdamente limitada. Luego de instalar mi sensor y
+tenerlo instalado en mi huerta por 10 días, este comenzó a entregar lecturas extrañas. Al revisarlo, encontré
+que estaba corroído y que pronto iba a estar inutilizable. Al leer un poco por la red, me llamó la atención
+que siendo uno de los sensores mayormente utilizados, muy pocos reportan su corta durabilidad.</p>
+
+  <figure class="center" >
+    <img src="/img/2025-SmartPlant/SensorCorroido.jpg" style="width: 75%;" decoding="async" loading="lazy"/>
+    
+      <figcaption class="center" style="font-style: italic;"><p>El sensor después de 10 días de uso.</p>
+</figcaption>
+    
+  </figure>
+
+<h2 id="solucion-diy">Solución DIY</h2>
+<p>Luego de buscar un poco, alguién en un foro sugería la utilización de grafito y la fabricación propia para
+tener un sensor de alta durabilidad. El concepto detrás del sensor y corta duración es el proceso químico
+que hay detrás de la forma de sensar la húmedad. Al funcionar el sensor en la tierra y en humedad,
+midiendo constantemente la cantidad de corriente que se transmite por el suelo, las capas de metal que componen
+el sensor tienden a la corrosión. Para medios húmedos como es el caso de plantas de macetero, la corrosión
+es muy rápida, es por esto su corta utilidad.</p>
+<p>Dado esto, es que fabriqué mi propia versión del sensor de húmedad. Utilicé lapices gráfito comprados en el supermercado,
+con un groso del grafito de 3 mm. El resultado fue el siguiente:</p>
+
+  <figure class="center" >
+    <img src="/img/2025-SmartPlant/Sensor2.jpg" style="width: 75%;" decoding="async" loading="lazy"/>
+    
+      <figcaption class="center" style="font-style: italic;"><p>Barras de grafito junto al sensor aliexpress</p>
+</figcaption>
+    
+  </figure>
+
+
+  <figure class="center" >
+    <img src="/img/2025-SmartPlant/Sensor3.jpg" style="width: 75%;" decoding="async" loading="lazy"/>
+    
+      <figcaption class="center" style="font-style: italic;"><p>Segunda versión del sensor de mi sistema</p>
+</figcaption>
+    
+  </figure>
+
+<p>El costo de fabricar este sensor es casi nulo. Los 3 lapices cuestan casi USD$3 y utilicé sólo 1.
+Para los cables utilicé cables dupont los cuales deben costar USD$0.1 sino menos. Y teoricamente, la durabilidad
+del sensor es ilimitada ya que el grafito no se corroe como el metal.</p>
+<h2 id="mejorando-la-solucion-dyi">Mejorando la solución DYI.</h2>
+<p>Lamentablemente la desición de utilizar cables dupont para los cables de alimentación del sensor no fue buena.
+A los 15 días aprox y por excesiva manipulación de mi parte se cortó uno de los cables dupont.</p>
+<p>Esto dió pié a mejorar los cables de alimentación. Fue así que generé una nueva iteración del componente, esta vez,
+utilizando cable de red CAT5E. El resultado fue el siguiente:</p>
+
+  <figure class="center" >
+    <img src="/img/2025-SmartPlant/Sensor4.jpeg" style="width: 75%;" decoding="async" loading="lazy"/>
+    
+      <figcaption class="center" style="font-style: italic;"><p>Última versión del sensor.</p>
+</figcaption>
+    
+  </figure>
+
+<p>Veremos si esta versión dura más tiempo que la anterior.</p>
+<p>En el intertanto, la huerta ya está comenzando a entregar frutos.</p>
+
+  <figure class="center" >
+    <img src="/img/2025-SmartPlant/Frutos1.jpg" style="width: 75%;" decoding="async" loading="lazy"/>
+    
+      <figcaption class="center" style="font-style: italic;"><p>Ají chileno</p>
+</figcaption>
+    
+  </figure>
+
+
+  <figure class="center" >
+    <img src="/img/2025-SmartPlant/Frutos2.jpg" style="width: 75%;" decoding="async" loading="lazy"/>
+    
+      <figcaption class="center" style="font-style: italic;"><p>Ciboulette, Ají, Tomate Cherry</p>
+</figcaption>
+    
+  </figure>
+
+<h2 id="calibracion-del-sensor">Calibración del Sensor.</h2>
+<p>La calibración del sensor es otra historia. Si se quiere ser detallado, hay un protocolo estricto a seguir.</p>
+<p>Por ahora me encuentro secando tierra para calibrar mi sensor, pero eso ya da para otro post.</p>
+<p>A modo de registro, dejo el código que estoy ocupando la calibración de este tipo de sensores.</p>
+<pre data-lang="C++" style="background-color:#151515;color:#e8e8d3;" class="language-C++ "><code class="language-C++" data-lang="C++"><span style="color:#888888;">/*
+</span><span style="color:#888888;">Script for the calibration of Soil Moisture Sensor
+</span><span style="color:#888888;">Last modified: 01/07/2025
+</span><span style="color:#888888;">Working with Arduino Uno R4 wifi
+</span><span style="color:#888888;">Sensors used: Custom Soil Moisture sensor made out of lead from a pencil.
+</span><span style="color:#888888;">Any resistive soil moisture sensor can be used. Before the lead pencil one
+</span><span style="color:#888888;">I used one from aliexpress:
+</span><span style="color:#888888;">https://www.aliexpress.com/item/1005006344637182.html
+</span><span style="color:#888888;">*/
+</span><span>
+</span><span style="color:#8fbfdc;">#define </span><span style="color:#ffb964;">moistSensorPin</span><span> A0 </span><span style="color:#888888;">// Pin for moisture sensor
+</span><span>
+</span><span style="color:#888888;">/*
+</span><span style="color:#888888;"> * Soil Moisture Sensor:
+</span><span style="color:#888888;"> * ----------------------
+</span><span style="color:#888888;">
+</span><span style="color:#888888;"> * Output of sensor is either 0 (water) or 1023 (air) by theory.
+</span><span style="color:#888888;"> *
+</span><span style="color:#888888;"> * Must be calibrated with this script to be able to read extreme conditions
+</span><span style="color:#888888;"> * and validate that 0 is water and 1023 is air.
+</span><span style="color:#888888;"> *
+</span><span style="color:#888888;"> * Calibration with small pot with soil
+</span><span style="color:#888888;"> *
+</span><span style="color:#888888;"> * 256 = full in water
+</span><span style="color:#888888;"> * 1021 = full in empty air
+</span><span style="color:#888888;"> 
+</span><span style="color:#888888;">*/
+</span><span>
+</span><span>
+</span><span style="color:#888888;">// Setting up the script
+</span><span style="color:#8fbfdc;">void </span><span style="color:#fad07a;">setup</span><span>()
+</span><span>{
+</span><span>    Serial.</span><span style="color:#ffb964;">begin</span><span>(</span><span style="color:#cf6a4c;">9600</span><span>);
+</span><span>}
+</span><span>
+</span><span style="color:#888888;">// Recurrent loop of the script
+</span><span style="color:#8fbfdc;">void </span><span style="color:#fad07a;">loop</span><span>()
+</span><span>{
+</span><span>    </span><span style="color:#888888;">// Variable to store ADC value 
+</span><span>    </span><span style="color:#888888;">// ADC varies based on voltage( 0 to 1023 )
+</span><span>    </span><span style="color:#8fbfdc;">int</span><span> moistureLevel;
+</span><span>    </span><span style="color:#888888;">// analogRead function returns the integer 10 bit integer (0 to 1023)
+</span><span>    </span><span style="color:#888888;">// Read pin A0 where moisture sensor is connected
+</span><span>    moistureLevel = </span><span style="color:#ffb964;">analogRead</span><span>(moistSensorPin); 
+</span><span>  
+</span><span>    </span><span style="color:#888888;">// Print text in serial monitor
+</span><span>    Serial.</span><span style="color:#ffb964;">println</span><span>(</span><span style="color:#556633;">&quot;</span><span style="color:#99ad6a;">Moisture Value: </span><span style="color:#556633;">&quot;</span><span>);
+</span><span>    </span><span style="color:#888888;">// Print analog value in serial monitor 
+</span><span>    Serial.</span><span style="color:#ffb964;">println</span><span>(moistureLevel);
+</span><span>    </span><span style="color:#888888;">//Set a delay of 2 seconds to space the reading
+</span><span>    </span><span style="color:#ffb964;">delay</span><span>(</span><span style="color:#cf6a4c;">5000</span><span>);
+</span><span>}
+</span></code></pre>
+
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h">Read more posts</span>
+                    <hr />
+                </div>
+                <div class="pagination__buttons">
+                        <span class="button previous">
+                            <a href="https://ipushpedals.com/20241912-istrambim/">
+                                <span class="button__icon">←</span>&nbsp;
+                                <span class="button__text">ISTRAM BIM y modelación de carreteras</span>
+                            </a>
+                        </span>
+                    
+                    </div>
+            </div>
+        
+    </div>
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2025
+ Powered by <a href="https://www.getzola.org/">Zola</a></span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

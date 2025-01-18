@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>iPushPedals</title>
+    <link rel="self" type="application/atom+xml" href="https://ipushpedals.com/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://ipushpedals.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-01-18T00:00:00+00:00</updated>
+    <id>https://ipushpedals.com/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Sensor de humedad del suelo</title>
+        <published>2025-01-18T00:00:00+00:00</published>
+        <updated>2025-01-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://ipushpedals.com/20250118-soilmoisturesensor/"/>
+        <id>https://ipushpedals.com/20250118-soilmoisturesensor/</id>
+        
+        <summary type="html">&lt;h1 id=&quot;smart-plant-sensor-de-humedad-de-suelo&quot;&gt;Smart Plant: Sensor de humedad de suelo..&lt;&#x2F;h1&gt;
+&lt;p&gt;El año pasado comencé a ocupar mi carpa de cultivo indoor para plantar vegetales de consumo y de paso
+implementar un sistema de control usando IoT. Para esto me incliné por arduino por la facilidad de
+programación y aprendizaje en la creación de prototipos. El sistema funciona muy bien pero de a poco he ido iterando
+componentes y mejorando el sistema para llegar a algo que me deje tranquilo. Advertencia, estoy recién comenzando.&lt;&#x2F;p&gt;
+&lt;p&gt;En este post no voy a describir todo el proceso ni cada una de las partes que estoy ocupando, sino que me voy a enfocar en un componente particular,
+el sensor de humedad de suelo.&lt;&#x2F;p&gt;
+
+  &lt;figure class=&quot;center&quot; &gt;
+    &lt;img src=&quot;&#x2F;img&#x2F;2025-SmartPlant&#x2F;MiniGarden.jpg&quot; style=&quot;width: 75%;&quot; decoding=&quot;async&quot; loading=&quot;lazy&quot;&#x2F;&gt;
+    
+      &lt;figcaption class=&quot;center&quot; style=&quot;font-style: italic;&quot;&gt;&lt;p&gt;Huerta Indoor&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;
+    
+  &lt;&#x2F;figure&gt;
+
+</summary>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>ISTRAM BIM y modelación de carreteras</title>
+        <published>2024-12-19T00:00:00+00:00</published>
+        <updated>2024-12-19T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://ipushpedals.com/20241912-istrambim/"/>
+        <id>https://ipushpedals.com/20241912-istrambim/</id>
+        
+        <summary type="html">&lt;h1 id=&quot;modelacion-de-carreteras-con-istram-bim&quot;&gt;Modelación de carreteras con ISTRAM BIM&lt;&#x2F;h1&gt;
+&lt;p&gt;Llevo ya un tiempo trabajando con metodologías BIM y el mundo 3D, principalmente en la gestión BIM para el proyecto
+Embalse Las Palmas. Al estar en la parte de gestión, poco tiempo queda para meter las manos y modelar propiamente tal,
+sin embargo, este año he tenido tiempo para meter las manos a ISTRAM, un software de modelación 3D para obras lineales
+que optimiza bastante el proceso de diseño y de generación de modelos 3D para obras lineales.&lt;&#x2F;p&gt;
+&lt;p&gt;ISTRAM es un software de origen español, que se está utilizando bastante en los proyectos de infraestructura víal en Chile,
+por ejemplo, en la ruta Talca-Chillan, en la ruta del Loa, ruta 78 y otros proyectos concesionados MOP. En Embalse Las Palmas
+solicitamos su uso para la modelación de una obra de canal de 68 kms de extensión, que también es una obra lineal. El resultado
+fue bastante bueno por lo que aprovechamos de solicitar unos cursos para aprender el software y poder así modelar las rutas de nuestro proyecto que actualmente se encuentran modeladas en Civil3D y Revit (Si, se pueden modelar rutas sin problemas en Civil3D).&lt;&#x2F;p&gt;
+
+  &lt;figure class=&quot;center&quot; &gt;
+    &lt;img src=&quot;&#x2F;img&#x2F;20241912-IstramBIM&#x2F;canal_alimentador.png&quot; style=&quot;width: 75%;&quot; decoding=&quot;async&quot; loading=&quot;lazy&quot;&#x2F;&gt;
+    
+      &lt;figcaption class=&quot;center&quot; style=&quot;font-style: italic;&quot;&gt;&lt;p&gt;Canal Alimentador en ISTRAM BIM&lt;&#x2F;p&gt;
+&lt;&#x2F;figcaption&gt;
+    
+  &lt;&#x2F;figure&gt;
+
+</summary>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Primer post</title>
+        <published>2024-12-01T00:00:00+00:00</published>
+        <updated>2024-12-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://ipushpedals.com/20241812-firstpost/"/>
+        <id>https://ipushpedals.com/20241812-firstpost/</id>
+        
+        <content type="html" xml:base="https://ipushpedals.com/20241812-firstpost/">&lt;p&gt;Primer post para probar Zola y la instalación en GitHub.&lt;&#x2F;p&gt;
+
+  
+  
+    
+    
+  
+  &lt;img src=&quot;https:&#x2F;&#x2F;ipushpedals.com&#x2F;img&#x2F;pepe.png&quot; class=&quot;center&quot; decoding=&quot;async&quot; loading=&quot;lazy&quot;&#x2F;&gt;
+
+</content>
+        
+    </entry>
+</feed>
