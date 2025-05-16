@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>OnBIM - showcase</title>
+    <link rel="self" type="application/atom+xml" href="http://ocar.engineer/tags/showcase/atom.xml"/>
+    <link rel="alternate" type="text/html" href="http://ocar.engineer"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2024-12-01T00:00:00+00:00</updated>
+    <id>http://ocar.engineer/tags/showcase/atom.xml</id>
+    <entry xml:lang="en">
+        <title>First Post</title>
+        <published>2024-12-01T00:00:00+00:00</published>
+        <updated>2024-12-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              OcarCampos
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="http://ocar.engineer/posts/20241812-firstpost/"/>
+        <id>http://ocar.engineer/posts/20241812-firstpost/</id>
+        
+        <content type="html" xml:base="http://ocar.engineer/posts/20241812-firstpost/">&lt;p&gt;First post to test Zola and GitHub installation.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;pepe.png&quot; alt=&quot;pepe&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

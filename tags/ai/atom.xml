@@ -1,0 +1,1370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>OnBIM - AI</title>
+    <link rel="self" type="application/atom+xml" href="http://ocar.engineer/tags/ai/atom.xml"/>
+    <link rel="alternate" type="text/html" href="http://ocar.engineer"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-05-16T00:00:00+00:00</updated>
+    <id>http://ocar.engineer/tags/ai/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Selfhost or Cloud? Cost&#x2F;Risk Analysis</title>
+        <published>2025-05-16T00:00:00+00:00</published>
+        <updated>2025-05-16T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              OcarCampos
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="http://ocar.engineer/posts/20250516-selfhostorcloud/"/>
+        <id>http://ocar.engineer/posts/20250516-selfhostorcloud/</id>
+        
+        <summary type="html">&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Self-hosted storage&lt;&#x2F;strong&gt; is almost always more cost-effective for large-scale, persistent needs, specially if there is a focus on data privacy and security.&lt;&#x2F;li&gt;
+&lt;li&gt;For GPU compute (Deepseek), cloud is often cheaper unless you maintain high utilization &lt;strong&gt;(&amp;gt;20–30%)&lt;&#x2F;strong&gt; so there is to be mindful of the utilization rate and what the goals are before investing.&lt;&#x2F;li&gt;
+&lt;li&gt;After some research, a hybrid approach—self-hosted storage, cloud GPUs for burst analysis—is optimal for most organizations but all depends on the use case and goals.&lt;&#x2F;li&gt;
+&lt;li&gt;See detailed cost, risk, and operational breakdowns below for informed decision-making given your own scenario.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;</summary>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Custom Server for Deepseek &amp; Storage</title>
+        <published>2025-05-15T00:00:00+00:00</published>
+        <updated>2025-05-15T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              OcarCampos
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="http://ocar.engineer/posts/20250515-deepseekserver/"/>
+        <id>http://ocar.engineer/posts/20250515-deepseekserver/</id>
+        
+        <content type="html" xml:base="http://ocar.engineer/posts/20250515-deepseekserver/">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;&#x2F;h2&gt;
+&lt;p&gt;This post details a custom server build designed to run the Deepseek 71B model locally and serve as a high-capacity NAS for project documents. The goal is to provide a cost-effective, high-performance solution using consumer hardware available in Chile, while ensuring compatibility with Deepseek&#x27;s demanding requirements and enterprise-grade storage needs. This guide is intended for IT professionals, researchers, and organizations interested in deploying advanced AI models and centralized storage on-premises.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;solution-overview&quot;&gt;Solution Overview&lt;&#x2F;h2&gt;
+&lt;p&gt;After analyzing Deepseek&#x27;s hardware requirements (see previous post), I determined that running the 71B model locally requires a system with extremely high GPU VRAM, substantial system RAM, and fast storage. In addition, the server must function as a NAS, allowing secure access to project files from anywhere. The proposed solution leverages high-end consumer components for the best price&#x2F;performance ratio, but requires careful selection and assembly due to compatibility and supply constraints in the Chilean market.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;parts-list-table-with-gpu-quick-reference&quot;&gt;Parts List Table With GPU (Quick Reference)&lt;&#x2F;h2&gt;
+&lt;p&gt;Below is a summary table of the recommended components. Each part was chosen for its compatibility with multi-GPU deep learning workloads and large-scale storage. For detailed specs and rationale, see the sections below.&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Component&lt;&#x2F;th&gt;&lt;th&gt;Vendor&lt;&#x2F;th&gt;&lt;th&gt;Model&#x2F;Description&lt;&#x2F;th&gt;&lt;th&gt;Price&lt;&#x2F;th&gt;&lt;th&gt;Link&lt;&#x2F;th&gt;&lt;th&gt;Notes&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;CPU&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Intel&lt;&#x2F;td&gt;&lt;td&gt;Intel Core i9 14900K (BX8071514900K)&lt;&#x2F;td&gt;&lt;td&gt;CLP$622990&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.advantage.cl&#x2F;catalog&#x2F;product&#x2F;view&#x2F;id&#x2F;33964&#x2F;s&#x2F;intel-core-i9-i9-14900k-3-2-ghz-24-core-lga1700-socket&#x2F;category&#x2F;1387&#x2F;&quot;&gt;Advantage Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Available at multiple stores&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Motherboard&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;MSI&lt;&#x2F;td&gt;&lt;td&gt;MEG Z790 ACE&lt;&#x2F;td&gt;&lt;td&gt;CLP$561694&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;store.infor-ingen.com&#x2F;producto&#x2F;m-b-msi-meg-z790-ace&#x2F;&quot;&gt;Infor Ingen Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;RAM&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Kingston&lt;&#x2F;td&gt;&lt;td&gt;Fury Beast KF556C40BBK4-128 (4 x 32 GBDIMM DDR5-5600)&lt;&#x2F;td&gt;&lt;td&gt;CLP$424204&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;ttps:&#x2F;&#x2F;www.wei.cl&#x2F;producto&#x2F;kit-de-4-modulos-ddr5-fury-beast-128gb-5600mt-s-cl40-dimm-kf556c40bbk4-128-4d72a62345&quot;&gt;Wei Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Available at multiple stores&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;GPU&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;ASUS&lt;&#x2F;td&gt;&lt;td&gt;ROG-ASTRAL-RTX5090-O32G-GAMING [90YV0LW0-M0AA00]&lt;&#x2F;td&gt;&lt;td&gt;CLP$4114390&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;centrale.cl&#x2F;producto&#x2F;tarjeta-grafica-asus-rog-astral-rtx5090-gaming-oc-32gb-gddr7-512-bit&#x2F;&quot;&gt;Centrale Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only one option. Need 2 of these.&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;SSD (OS)&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Crucial&lt;&#x2F;td&gt;&lt;td&gt;P3 Plus 1 TB (CT1000P3PSSD8)&lt;&#x2F;td&gt;&lt;td&gt;CLP$72990&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.winpy.cl&#x2F;venta&#x2F;unidad-de-estado-solido-crucial-p3-plus-de-1tb-nvme-4-0-m-2-2280-hasta-5000mb-s&#x2F;?ref=sltd&quot;&gt;Winpy Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Available at multiple stores&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;SSD (Model)&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Crucial&lt;&#x2F;td&gt;&lt;td&gt;P3 Plus 4 TB (CT4000P3PSSD8)&lt;&#x2F;td&gt;&lt;td&gt;CLP$270990&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;notebookstore.cl&#x2F;p3-plus-4000gb-3d-nand-nvme-pcie-m2-ssd&quot;&gt;Notebook Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;HDD (Storage)&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Seagate&lt;&#x2F;td&gt;&lt;td&gt;IronWolf 12 TB (ST12000VN0008)&lt;&#x2F;td&gt;&lt;td&gt;CLP$306915&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;tienda.pc-express.cl&#x2F;index.php?route=product&#x2F;product&amp;amp;product_id=9565&quot;&gt;PC Express Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;4 needed. Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Chassis&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Segotep&lt;&#x2F;td&gt;&lt;td&gt;Endura Pro+ - White&lt;&#x2F;td&gt;&lt;td&gt;CLP$84990&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;power-play.cl&#x2F;product&#x2F;gabinete-endura-pro-white-segotep-e-atx-6-ventiladores&#x2F;&quot;&gt;Power Play Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;PSU&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;FSP Group&lt;&#x2F;td&gt;&lt;td&gt;CANNON PRO FSP2000-52AGPBI (2000 W)&lt;&#x2F;td&gt;&lt;td&gt;CLP$525263&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;n1g.cl&#x2F;Home&#x2F;computacion&#x2F;2880-fuente-de-poder-canon-pro-2000w-80-gold-full-modular.html&quot;&gt;N1G Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Cooling&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;GameMax&lt;&#x2F;td&gt;&lt;td&gt;IceBurg 240 Digital WH&lt;&#x2F;td&gt;&lt;td&gt;CLP$73034&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;store.infor-ingen.com&#x2F;producto&#x2F;watercooling-gamemax-iceburg-240-digital-wh&#x2F;&quot;&gt;Infor Ingen Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Other&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;airMax&lt;&#x2F;td&gt;&lt;td&gt;Combo Teclado y Mouse GMK-01&lt;&#x2F;td&gt;&lt;td&gt;CLP$9269&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bip.cl&#x2F;combo-teclado-mouse-usb-espaol-gmk1es-pn-GMK-1-ES_28784&quot;&gt;BIP Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Many options&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Total Build Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;As for 2025-05-15, the total build price is &lt;strong&gt;CLP$12,101,864&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;parts-list-table-without-gpu&quot;&gt;Parts List Table without GPU&lt;&#x2F;h2&gt;
+&lt;p&gt;Below is a summary table of the recommended components. Each part was chosen for its compatibility for large-scale storage. For detailed specs and rationale, see the sections below.&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Component&lt;&#x2F;th&gt;&lt;th&gt;Vendor&lt;&#x2F;th&gt;&lt;th&gt;Model&#x2F;Description&lt;&#x2F;th&gt;&lt;th&gt;Price&lt;&#x2F;th&gt;&lt;th&gt;Link&lt;&#x2F;th&gt;&lt;th&gt;Notes&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;CPU&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Intel&lt;&#x2F;td&gt;&lt;td&gt;Intel Core i9 14900K (BX8071514900K)&lt;&#x2F;td&gt;&lt;td&gt;CLP$622990&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.advantage.cl&#x2F;catalog&#x2F;product&#x2F;view&#x2F;id&#x2F;33964&#x2F;s&#x2F;intel-core-i9-i9-14900k-3-2-ghz-24-core-lga1700-socket&#x2F;category&#x2F;1387&#x2F;&quot;&gt;Advantage Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Available at multiple stores&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Motherboard&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;MSI&lt;&#x2F;td&gt;&lt;td&gt;MEG Z790 ACE&lt;&#x2F;td&gt;&lt;td&gt;CLP$561694&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;store.infor-ingen.com&#x2F;producto&#x2F;m-b-msi-meg-z790-ace&#x2F;&quot;&gt;Infor Ingen Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;RAM&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Kingston&lt;&#x2F;td&gt;&lt;td&gt;Fury Beast KF556C40BBK4-128 (4 x 32 GBDIMM DDR5-5600)&lt;&#x2F;td&gt;&lt;td&gt;CLP$424204&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;ttps:&#x2F;&#x2F;www.wei.cl&#x2F;producto&#x2F;kit-de-4-modulos-ddr5-fury-beast-128gb-5600mt-s-cl40-dimm-kf556c40bbk4-128-4d72a62345&quot;&gt;Wei Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Available at multiple stores&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;SSD (OS)&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Crucial&lt;&#x2F;td&gt;&lt;td&gt;P3 Plus 1 TB (CT1000P3PSSD8)&lt;&#x2F;td&gt;&lt;td&gt;CLP$72990&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.winpy.cl&#x2F;venta&#x2F;unidad-de-estado-solido-crucial-p3-plus-de-1tb-nvme-4-0-m-2-2280-hasta-5000mb-s&#x2F;?ref=sltd&quot;&gt;Winpy Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Available at multiple stores&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;SSD (Model)&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Crucial&lt;&#x2F;td&gt;&lt;td&gt;P3 Plus 4 TB (CT4000P3PSSD8)&lt;&#x2F;td&gt;&lt;td&gt;CLP$270990&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;notebookstore.cl&#x2F;p3-plus-4000gb-3d-nand-nvme-pcie-m2-ssd&quot;&gt;Notebook Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;HDD (Storage)&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Seagate&lt;&#x2F;td&gt;&lt;td&gt;IronWolf 12 TB (ST12000VN0008)&lt;&#x2F;td&gt;&lt;td&gt;CLP$306915&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;tienda.pc-express.cl&#x2F;index.php?route=product&#x2F;product&amp;amp;product_id=9565&quot;&gt;PC Express Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;4 needed. Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Chassis&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;Segotep&lt;&#x2F;td&gt;&lt;td&gt;Endura Pro+ - White&lt;&#x2F;td&gt;&lt;td&gt;CLP$84990&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;power-play.cl&#x2F;product&#x2F;gabinete-endura-pro-white-segotep-e-atx-6-ventiladores&#x2F;&quot;&gt;Power Play Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;PSU&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;FSP Group&lt;&#x2F;td&gt;&lt;td&gt;CANNON PRO FSP2000-52AGPBI (2000 W)&lt;&#x2F;td&gt;&lt;td&gt;CLP$525263&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;n1g.cl&#x2F;Home&#x2F;computacion&#x2F;2880-fuente-de-poder-canon-pro-2000w-80-gold-full-modular.html&quot;&gt;N1G Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Cooling&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;GameMax&lt;&#x2F;td&gt;&lt;td&gt;IceBurg 240 Digital WH&lt;&#x2F;td&gt;&lt;td&gt;CLP$73034&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;store.infor-ingen.com&#x2F;producto&#x2F;watercooling-gamemax-iceburg-240-digital-wh&#x2F;&quot;&gt;Infor Ingen Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Only at one store&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Other&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td&gt;airMax&lt;&#x2F;td&gt;&lt;td&gt;Combo Teclado y Mouse GMK-01&lt;&#x2F;td&gt;&lt;td&gt;CLP$9269&lt;&#x2F;td&gt;&lt;td&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bip.cl&#x2F;combo-teclado-mouse-usb-espaol-gmk1es-pn-GMK-1-ES_28784&quot;&gt;BIP Store&lt;&#x2F;a&gt;&lt;&#x2F;td&gt;&lt;td&gt;Many options&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Total Build Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;As for 2025-05-15, the total build price &lt;strong&gt;without GPU&lt;&#x2F;strong&gt; is &lt;strong&gt;CLP$3,863,084&lt;&#x2F;strong&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h1 id=&quot;estimated-electricity-consumption&quot;&gt;Estimated Electricity Consumption&lt;&#x2F;h1&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Build Option&lt;&#x2F;th&gt;&lt;th&gt;Estimated Power Draw (W)&lt;&#x2F;th&gt;&lt;th&gt;kWh&#x2F;month&lt;&#x2F;th&gt;&lt;th&gt;kWh&#x2F;year&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;With 2× RTX 5090 GPUs&lt;&#x2F;td&gt;&lt;td&gt;1,650&lt;&#x2F;td&gt;&lt;td&gt;1,205&lt;&#x2F;td&gt;&lt;td&gt;14,460&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Without GPU&lt;&#x2F;td&gt;&lt;td&gt;500&lt;&#x2F;td&gt;&lt;td&gt;365&lt;&#x2F;td&gt;&lt;td&gt;4,444&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(101, 31, 255, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;example.svg);&quot;
+    &gt;
+      example
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Assumptions&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;ul&gt;
+&lt;li&gt;&quot;With GPU&quot; estimate is based on previous calculations for a dual RTX 5090 build under full load (Own cost-risk assessment: 1,650W).&lt;&#x2F;li&gt;
+&lt;li&gt;&quot;Without GPU&quot; estimate is based on typical component draw for the listed parts, excluding GPUs (approx. 500W continuous load).&lt;&#x2F;li&gt;
+&lt;li&gt;Both assume 24&#x2F;7 operation. Actual usage will vary with workload and power-saving features.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h1 id=&quot;parts-in-specific&quot;&gt;Parts in Specific&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;cpu-options&quot;&gt;CPU Options&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;intel-core-i9-14900k-bx8071514900k&quot;&gt;Intel Core i9 14900K (BX8071514900K)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;cpu.jpg&quot; alt=&quot;Intel Core i9 14900K&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;3.2 Ghz base, 5.2 Ghz boost&lt;&#x2F;li&gt;
+&lt;li&gt;24 cores&lt;&#x2F;li&gt;
+&lt;li&gt;32 threads&lt;&#x2F;li&gt;
+&lt;li&gt;36 MB cache&lt;&#x2F;li&gt;
+&lt;li&gt;Socket FCLGA1700 (BX8071514900K)&lt;&#x2F;li&gt;
+&lt;li&gt;Accepts ECC DDR-5600 dual channel&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.advantage.cl&#x2F;catalog&#x2F;product&#x2F;view&#x2F;id&#x2F;33964&#x2F;s&#x2F;intel-core-i9-i9-14900k-3-2-ghz-24-core-lga1700-socket&#x2F;category&#x2F;1387&#x2F;&quot;&gt;Advantage Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;tienda.pc-express.cl&#x2F;index.php?route=product&#x2F;product&amp;amp;path=460_473_588&amp;amp;product_id=17929&quot;&gt;PC Express Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.winpy.cl&#x2F;venta&#x2F;procesador-intel-core-i9-14900k-raptor-lake-s-lga1700-24-cores-32-hilos-2-4-5-6ghz-36mb-cache-unlocked&#x2F;&quot;&gt;Winpy Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.spdigital.cl&#x2F;intel-core-i9-i9-14900kf-32-ghz-24-core-lga1700-socket&#x2F;&quot;&gt;SPDigital Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$622990&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;motherboard-options&quot;&gt;Motherboard Options&lt;&#x2F;h2&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(255, 145, 0, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;warning.svg);&quot;
+    &gt;
+      warning
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Observation&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;The motherboard to choose must consider that ideally 2 GPU RTX5090 will be installed, as the Deepseek 71b model requires 2 RTX5090s to run locally.
+Therefore it is also important to note that the motherboard must have at least 2 PCIe 5.0 x16 slots.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;msi-meg-z790-ace-allows-2-rtx5090&quot;&gt;MSI MEG Z790 ACE (Allows 2 RTX5090)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;mb1.png&quot; alt=&quot;MSI MEG Z790 ACE&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fabricante: MSI&lt;&#x2F;li&gt;
+&lt;li&gt;Socket: LGA 1700&lt;&#x2F;li&gt;
+&lt;li&gt;Chipset: Intel Z790 (LGA 1700)&lt;&#x2F;li&gt;
+&lt;li&gt;Slots memorias: 4x DDR5&lt;&#x2F;li&gt;
+&lt;li&gt;Canales memoria: Dual channel&lt;&#x2F;li&gt;
+&lt;li&gt;Formato: Extended ATX&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte RGB
+&lt;ul&gt;
+&lt;li&gt;3x ARGB Programable (Addressable RGB &#x2F; 3-pin &#x2F; 5V)&lt;&#x2F;li&gt;
+&lt;li&gt;1x RGB Simple (4-pin &#x2F; 12V)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos de video
+&lt;ul&gt;
+&lt;li&gt;2x Mini DisplayPort&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos de energía
+&lt;ul&gt;
+&lt;li&gt;1x 24 pines (Motherboard)&lt;&#x2F;li&gt;
+&lt;li&gt;2x 8 pines (CPU)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Especificaciones secundarias
+&lt;ul&gt;
+&lt;li&gt;Soporte SLI: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte CrossFire: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte RAID: Sí&lt;&#x2F;li&gt;
+&lt;li&gt;Conectores:
+&lt;ul&gt;
+&lt;li&gt;1x M.2 22110 (PCIe 4.0 x4)&lt;&#x2F;li&gt;
+&lt;li&gt;1x M.2 22110 (PCIe 4.0 x4 &#x2F; SATA 3 (6.0 Gb&#x2F;s))&lt;&#x2F;li&gt;
+&lt;li&gt;1x M.2 2280 (PCIe 4.0 x4)&lt;&#x2F;li&gt;
+&lt;li&gt;1x M.2 2280 (PCIe 4.0 x4 &#x2F; SATA 3 (6.0 Gb&#x2F;s))&lt;&#x2F;li&gt;
+&lt;li&gt;1x M.2 2280 (PCIe 5.0 x4)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;6x SATA (SATA 3 (6.0 Gb&#x2F;s))&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos
+&lt;ul&gt;
+&lt;li&gt;2x Antenna Connector WI-FI 6 (802.11ax)&lt;&#x2F;li&gt;
+&lt;li&gt;1x BIOS Flashback button&lt;&#x2F;li&gt;
+&lt;li&gt;1x Clear CMOS button&lt;&#x2F;li&gt;
+&lt;li&gt;2x RJ45&lt;&#x2F;li&gt;
+&lt;li&gt;1x S&#x2F;PDIF (óptico)&lt;&#x2F;li&gt;
+&lt;li&gt;2x Thunderbolt 4&lt;&#x2F;li&gt;
+&lt;li&gt;7x USB 3.2 Gen 2 (USB 3.2)&lt;&#x2F;li&gt;
+&lt;li&gt;1x USB 3.2 Gen 2 (USB 3.2) Type-C&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Expansiones
+&lt;ul&gt;
+&lt;li&gt;1x PCI Express 4.0 x16&lt;&#x2F;li&gt;
+&lt;li&gt;2x PCI Express 5.0 x16&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;store.infor-ingen.com&#x2F;producto&#x2F;m-b-msi-meg-z790-ace&#x2F;&quot;&gt;Infor Ingen Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$561694&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;msi-mpg-z790-edge-ti-max-wifi-allows-1-rtx-5090&quot;&gt;MSI MPG Z790 EDGE TI MAX WIFI (Allows 1 RTX 5090)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;mb2.jpg&quot; alt=&quot;MSI MPG Z790 EDGE TI MAX WIFI&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Fabricante: MSI&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Socket: LGA 1700&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Chipset: Intel Z790 (LGA 1700)&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Slots memorias: 4x DDR5&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Canales memoria: Dual channel&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Formato: ATX&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Soporte RGB:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;3x ARGB Programable (Addressable RGB &#x2F; 3-pin &#x2F; 5V)&lt;&#x2F;li&gt;
+&lt;li&gt;1x RGB Simple (4-pin &#x2F; 12V)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Puertos de video:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;1x DisplayPort 1.4&lt;&#x2F;li&gt;
+&lt;li&gt;1x HDMI 2.1&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Puertos de energía:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;1x 24 pines (Motherboard)&lt;&#x2F;li&gt;
+&lt;li&gt;2x 8 pines (CPU)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Especificaciones secundarias&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Soporte SLI: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte CrossFire: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte RAID: Sí&lt;&#x2F;li&gt;
+&lt;li&gt;Conectores:
+&lt;ul&gt;
+&lt;li&gt;1x M.2 22110 (PCIe 5.0 x4)&lt;&#x2F;li&gt;
+&lt;li&gt;3x M.2 2280 (PCIe 4.0 x4)&lt;&#x2F;li&gt;
+&lt;li&gt;1x M.2 2280 (PCIe 4.0 x4 &#x2F; SATA 3 (6.0 Gb&#x2F;s))&lt;&#x2F;li&gt;
+&lt;li&gt;8x SATA (SATA 3 (6.0 Gb&#x2F;s))&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos:
+&lt;ul&gt;
+&lt;li&gt;2x Antenna Connector WI-FI 7 (802.11be)&lt;&#x2F;li&gt;
+&lt;li&gt;1x BIOS Flashback button&lt;&#x2F;li&gt;
+&lt;li&gt;1x Clear CMOS button&lt;&#x2F;li&gt;
+&lt;li&gt;1x RJ45&lt;&#x2F;li&gt;
+&lt;li&gt;1x S&#x2F;PDIF (óptico)&lt;&#x2F;li&gt;
+&lt;li&gt;4x USB 3.2 Gen 1 (USB 3.2)&lt;&#x2F;li&gt;
+&lt;li&gt;4x USB 3.2 Gen 2 (USB 3.2)&lt;&#x2F;li&gt;
+&lt;li&gt;1x USB 3.2 Gen 2 (USB 3.2) Type-C&lt;&#x2F;li&gt;
+&lt;li&gt;1x USB 3.2 Gen 2x2 (USB 3.2) Type-C&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Expansiones:
+&lt;ul&gt;
+&lt;li&gt;1x PCI Express 3.0 x1&lt;&#x2F;li&gt;
+&lt;li&gt;1x PCI Express 4.0 x16&lt;&#x2F;li&gt;
+&lt;li&gt;1x PCI Express 5.0 x16&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;store.infor-ingen.com&#x2F;producto&#x2F;m-b-msi-mpg-z790-edge-ti-max-wifi&#x2F;&quot;&gt;Infor Ingen Store&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;infographicssolutions.cl&#x2F;producto&#x2F;msi-mpg-z790-edge-ti-max-wifi&#x2F;&quot;&gt;Infographic Solutions Store&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$498094&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;asus-rog-strix-z690-f-gaming-wifi-allows-1-rtx-5090&quot;&gt;ASUS ROG STRIX Z690-F GAMING WIFI (Allows 1 RTX 5090)&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;mb3.jpg&quot; alt=&quot;ASUS ROG STRIX Z690-F GAMING WIFI&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fabricante: ASUS&lt;&#x2F;li&gt;
+&lt;li&gt;Socket: LGA 1700&lt;&#x2F;li&gt;
+&lt;li&gt;Chipset: Intel Z690 (LGA 1700)&lt;&#x2F;li&gt;
+&lt;li&gt;Slots memorias: 4x DDR5&lt;&#x2F;li&gt;
+&lt;li&gt;Canales memoria: Dual channel&lt;&#x2F;li&gt;
+&lt;li&gt;Formato: ATX&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte RGB
+&lt;ul&gt;
+&lt;li&gt;3x ARGB Programable (Addressable RGB &#x2F; 3-pin &#x2F; 5V)&lt;&#x2F;li&gt;
+&lt;li&gt;1x RGB Simple (4-pin &#x2F; 12V)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos de video
+&lt;ul&gt;
+&lt;li&gt;1x DisplayPort&lt;&#x2F;li&gt;
+&lt;li&gt;1x HDMI&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos de energía
+&lt;ul&gt;
+&lt;li&gt;1x 24 pines (Motherboard)&lt;&#x2F;li&gt;
+&lt;li&gt;2x 8 pines (CPU)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Especificaciones secundarias
+&lt;ul&gt;
+&lt;li&gt;Soporte SLI: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte CrossFire: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte RAID: Sí&lt;&#x2F;li&gt;
+&lt;li&gt;Conectores:
+&lt;ul&gt;
+&lt;li&gt;4x M.2&lt;&#x2F;li&gt;
+&lt;li&gt;6x SATA (SATA 3 (6.0 Gb&#x2F;s))&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos:
+&lt;ul&gt;
+&lt;li&gt;2x Antenna Connector WI-FI 6 (802.11ax)&lt;&#x2F;li&gt;
+&lt;li&gt;1x BIOS Flashback button&lt;&#x2F;li&gt;
+&lt;li&gt;1x Clear CMOS button&lt;&#x2F;li&gt;
+&lt;li&gt;1x RJ45&lt;&#x2F;li&gt;
+&lt;li&gt;1x S&#x2F;PDIF (óptico)&lt;&#x2F;li&gt;
+&lt;li&gt;2x USB 2.0&lt;&#x2F;li&gt;
+&lt;li&gt;4x USB 3.2 Gen 1 (USB 3.2)&lt;&#x2F;li&gt;
+&lt;li&gt;3x USB 3.2 Gen 2 (USB 3.2)&lt;&#x2F;li&gt;
+&lt;li&gt;1x USB 3.2 Gen 2x2 (USB 3.2) Type-C&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Expansiones:
+&lt;ul&gt;
+&lt;li&gt;1x PCI Express 3.0 x1&lt;&#x2F;li&gt;
+&lt;li&gt;1x PCI Express 3.0 x16&lt;&#x2F;li&gt;
+&lt;li&gt;1x PCI Express 5.0 x16&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;store.infor-ingen.com&#x2F;producto&#x2F;m-b-asus-rog-strix-z690-f-gaming-wifi&#x2F;&quot;&gt;Infor Ingen Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$487494&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;gigabyte-z790-aorus-elite-x-wifi7-allows-1-rtx-5090&quot;&gt;Gigabyte Z790 AORUS ELITE X WIFI7 (Allows 1 RTX 5090)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;mb4.png&quot; alt=&quot;Gigabyte Z790 AORUS ELITE X WIFI7&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fabricante: Gigabyte&lt;&#x2F;li&gt;
+&lt;li&gt;Socket: LGA 1700&lt;&#x2F;li&gt;
+&lt;li&gt;Chipset: Intel Z790 (LGA 1700)&lt;&#x2F;li&gt;
+&lt;li&gt;Slots memorias: 4x DDR5&lt;&#x2F;li&gt;
+&lt;li&gt;Canales memoria: Dual channel&lt;&#x2F;li&gt;
+&lt;li&gt;Formato: ATX&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte RGB:
+&lt;ul&gt;
+&lt;li&gt;3x ARGB Programable (Addressable RGB &#x2F; 3-pin &#x2F; 5V)&lt;&#x2F;li&gt;
+&lt;li&gt;1x RGB Simple (4-pin &#x2F; 12V)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos de video:
+&lt;ul&gt;
+&lt;li&gt;1x DisplayPort&lt;&#x2F;li&gt;
+&lt;li&gt;1x HDMI&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos de energía:
+&lt;ul&gt;
+&lt;li&gt;1x 24 pines (Motherboard)&lt;&#x2F;li&gt;
+&lt;li&gt;2x 8 pines (CPU)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Especificaciones secundarias
+&lt;ul&gt;
+&lt;li&gt;Soporte SLI: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte CrossFire: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte RAID: Sí&lt;&#x2F;li&gt;
+&lt;li&gt;Conectores:
+&lt;ul&gt;
+&lt;li&gt;3x M.2 22110 (PCIe 4.0 x4)&lt;&#x2F;li&gt;
+&lt;li&gt;1x M.2 22110 (PCIe 4.0 x4 &#x2F; SATA 3 (6.0 Gb&#x2F;s))&lt;&#x2F;li&gt;
+&lt;li&gt;6x SATA (SATA 3 (6.0 Gb&#x2F;s))&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos:
+&lt;ul&gt;
+&lt;li&gt;2x Antenna Connector WI-FI 7 (802.11be)&lt;&#x2F;li&gt;
+&lt;li&gt;1x RJ45&lt;&#x2F;li&gt;
+&lt;li&gt;1x S&#x2F;PDIF (óptico)&lt;&#x2F;li&gt;
+&lt;li&gt;4x USB 2.0&lt;&#x2F;li&gt;
+&lt;li&gt;3x USB 3.1 Gen 1 (USB 3.0)&lt;&#x2F;li&gt;
+&lt;li&gt;2x USB 3.2 Gen 2 (USB 3.2)&lt;&#x2F;li&gt;
+&lt;li&gt;1x USB 3.2 Gen 2x2 (USB 3.2) Type-C&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Expansiones:
+&lt;ul&gt;
+&lt;li&gt;2x PCI Express 4.0 x16&lt;&#x2F;li&gt;
+&lt;li&gt;1x PCI Express 5.0 x16&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;notebookstore.cl&#x2F;aorus-motherboard-atx-lga1700-socket-intel-z790-para-celeron-para-core-i3-para-core-i5-para-core-i7-para-pentium-intel-hd-graphics-none-z790-a-elite-x-wifi7&quot;&gt;Notebook Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;tienda.pc-express.cl&#x2F;index.php?route=product&#x2F;product&amp;amp;product_id=19540&quot;&gt;PC Express Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.tecnomas.cl&#x2F;producto&#x2F;tarjeta-madre-gigabyte-z790-a-elite-x-wifi7-lga1700-4-ddr5-4-m-2-dp-hdmi-usb3-2&quot;&gt;Tecnomas Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$392990&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;ram-options-ddr5&quot;&gt;RAM Options (DDR5)&lt;&#x2F;h2&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(255, 145, 0, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;warning.svg);&quot;
+    &gt;
+      warning
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Observation&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;The RAM to choose must consider ideally 128GB to be installed, as the Deepseek 71b model requires this amount to run locally.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;kingston-fury-beast-kf556c40bbk4-128-4-x-32-gb-dimm-ddr5-5600&quot;&gt;Kingston Fury Beast KF556C40BBK4-128 (4 x 32 GB | DIMM DDR5-5600)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;ram1.jpeg&quot; alt=&quot;Kingston Fury Beast KF556C40BBK4-128&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Capacidad: 4 x 32 GB&lt;&#x2F;li&gt;
+&lt;li&gt;Tipo: DDR5&lt;&#x2F;li&gt;
+&lt;li&gt;Velocidad: 5600 MT&#x2F;s&lt;&#x2F;li&gt;
+&lt;li&gt;Formato: DIMM&lt;&#x2F;li&gt;
+&lt;li&gt;Voltaje: 1.25 V&lt;&#x2F;li&gt;
+&lt;li&gt;Latencia Cl (CAS): 40&lt;&#x2F;li&gt;
+&lt;li&gt;Latencia Trcd: 40&lt;&#x2F;li&gt;
+&lt;li&gt;Latencia Trp: 40&lt;&#x2F;li&gt;
+&lt;li&gt;Latencia Tras: Desconocida&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte ECC: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte full buffered: No&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.wei.cl&#x2F;producto&#x2F;kit-de-4-modulos-ddr5-fury-beast-128gb-5600mt-s-cl40-dimm-kf556c40bbk4-128-4d72a62345&quot;&gt;Wei Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.thundertech.cl&#x2F;kit-ram-kingston-fury-beast-128gb-4x32gb-ddr5-5600-dimm-cl40&quot;&gt;ThunderTech Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;infosep.cl&#x2F;producto&#x2F;memoria-ram-kingston-128gb-5600mt-s-ddr5-cl40-dimm-kit-of-4-f&#x2F;&quot;&gt;InfoSEP Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;centrale.cl&#x2F;producto&#x2F;memoria-ram-128gb-kit-4x32gb-ddr5-5600mt-s-cl40-kingston-fury-beast-black&#x2F;&quot;&gt;Centrale Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.tecnomas.cl&#x2F;producto&#x2F;memoria-ram-128gb-4-32gb-ddr5-5600mhz-dimm-cl40-non-ecc-1-25v-288p-fury-beast&quot;&gt;Tecnomas Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$424204&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;kingston-fury-beast-kf552c40bbk4-128-4-x-32-gb-dimm-ddr5-5200&quot;&gt;Kingston Fury Beast KF552C40BBK4-128 (4 x 32 GB | DIMM DDR5-5200)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;ram2.png&quot; alt=&quot;Kingston Fury Beast KF552C40BBK4-128&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Capacidad: 4 x 32 GB&lt;&#x2F;li&gt;
+&lt;li&gt;Tipo: DDR5&lt;&#x2F;li&gt;
+&lt;li&gt;Velocidad: 5200 MT&#x2F;s&lt;&#x2F;li&gt;
+&lt;li&gt;Formato: DIMM&lt;&#x2F;li&gt;
+&lt;li&gt;Voltaje: 1.25 V&lt;&#x2F;li&gt;
+&lt;li&gt;Latencia Cl (CAS): 40&lt;&#x2F;li&gt;
+&lt;li&gt;Latencia Trcd: 40&lt;&#x2F;li&gt;
+&lt;li&gt;Latencia Trp: 40&lt;&#x2F;li&gt;
+&lt;li&gt;Latencia Tras: Desconocida&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte ECC: No&lt;&#x2F;li&gt;
+&lt;li&gt;Soporte full buffered: No&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;centrale.cl&#x2F;producto&#x2F;kingston-fury-beast-black-128gb-4x32gb-5200mt-s-cl40-ddr5-xmp-dimm&#x2F;&quot;&gt;Centrale Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$458580&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;gpu-options-rtx-given-deepseek-requirements&quot;&gt;GPU Options (RTX Given deepseek requirements)&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;asus-rog-astral-rtx5090-o32g-gaming-90yv0lw0-m0aa00&quot;&gt;ASUS ROG-ASTRAL-RTX5090-O32G-GAMING [90YV0LW0-M0AA00]&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;gpu1.png&quot; alt=&quot;ASUS ROG-ASTRAL-RTX5090-O32G-GAMING&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fabricante: ASUS&lt;&#x2F;li&gt;
+&lt;li&gt;GPU: NVIDIA GeForce RTX 5090&lt;&#x2F;li&gt;
+&lt;li&gt;Memoria: 32 GB GDDR7 (512 bit)&lt;&#x2F;li&gt;
+&lt;li&gt;Bus: PCI Express 5.0 x16&lt;&#x2F;li&gt;
+&lt;li&gt;Frecuencias core (base &#x2F; boost &#x2F; OC): 2017 &#x2F; 2407 &#x2F; 2610 MHz&lt;&#x2F;li&gt;
+&lt;li&gt;Frecuencia memorias: 875 MHz&lt;&#x2F;li&gt;
+&lt;li&gt;Especificaciones secundarias
+&lt;ul&gt;
+&lt;li&gt;Núcleo: NVIDIA Blackwell GB202&lt;&#x2F;li&gt;
+&lt;li&gt;Perfil: Normal&lt;&#x2F;li&gt;
+&lt;li&gt;Refrigeración: Ventilador&lt;&#x2F;li&gt;
+&lt;li&gt;Slots: Triple slot&lt;&#x2F;li&gt;
+&lt;li&gt;Largo: 358 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Iluminación: RGB Programable&lt;&#x2F;li&gt;
+&lt;li&gt;Backplate: Sí&lt;&#x2F;li&gt;
+&lt;li&gt;Conectores de poder: 1x 16 pines (12VHPWR)&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos de video: 3x DisplayPort 2.1&lt;&#x2F;li&gt;
+&lt;li&gt;2x HDMI 2.1b&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;centrale.cl&#x2F;producto&#x2F;tarjeta-grafica-asus-rog-astral-rtx5090-gaming-oc-32gb-gddr7-512-bit&#x2F;&quot;&gt;Centrale Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$4114390&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;asus-tuf-rtx5090-o32g-gaming&quot;&gt;ASUS TUF-RTX5090-O32G-GAMING&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;gpu2.png&quot; alt=&quot;ASUS TUF-RTX5090-O32G-GAMING&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fabricante: ASUS&lt;&#x2F;li&gt;
+&lt;li&gt;GPU: NVIDIA GeForce RTX 5090&lt;&#x2F;li&gt;
+&lt;li&gt;Memoria: 32 GB GDDR7 (512 bit)&lt;&#x2F;li&gt;
+&lt;li&gt;Bus: PCI Express 5.0 x16&lt;&#x2F;li&gt;
+&lt;li&gt;Frecuencias core (base &#x2F; boost &#x2F; OC): 2017 &#x2F; 2407 &#x2F; 2580 MHz&lt;&#x2F;li&gt;
+&lt;li&gt;Frecuencia memorias: 875 MHz&lt;&#x2F;li&gt;
+&lt;li&gt;Especificaciones secundarias
+&lt;ul&gt;
+&lt;li&gt;Núcleo: NVIDIA Blackwell GB202&lt;&#x2F;li&gt;
+&lt;li&gt;Perfil: Normal&lt;&#x2F;li&gt;
+&lt;li&gt;Refrigeración: Ventilador&lt;&#x2F;li&gt;
+&lt;li&gt;Slots: Triple slot&lt;&#x2F;li&gt;
+&lt;li&gt;Largo: 359 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Iluminación: RGB Programable&lt;&#x2F;li&gt;
+&lt;li&gt;Backplate: Sí&lt;&#x2F;li&gt;
+&lt;li&gt;Conectores de poder: 1x 16 pines (12VHPWR)&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos de video: 3x DisplayPort 2.1&lt;&#x2F;li&gt;
+&lt;li&gt;2x HDMI 2.1b&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;centrale.cl&#x2F;producto&#x2F;tarjeta-grafica-asus-tuf-gaming-geforce-rtx-5090-oc-32gb-gddr7-512-bit&#x2F;&quot;&gt;Centrale Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$3903390&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;ssd-os-options&quot;&gt;SSD OS options&lt;&#x2F;h2&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Observation&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;For the OS only 1 ssd is considered&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;crucial-p3-plus-1-tb-ct1000p3pssd8&quot;&gt;Crucial P3 Plus 1 TB (CT1000P3PSSD8)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;ssd1.png&quot; alt=&quot;Crucial P3 Plus 1 TB&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Línea: Crucial P3 Plus&lt;&#x2F;li&gt;
+&lt;li&gt;Capacidad: 1 TB&lt;&#x2F;li&gt;
+&lt;li&gt;Formato: M.2 (2280)&lt;&#x2F;li&gt;
+&lt;li&gt;Bus: PCIe 4.0 x4&lt;&#x2F;li&gt;
+&lt;li&gt;¿Posee DRAM?: No&lt;&#x2F;li&gt;
+&lt;li&gt;Tipo memoria NAND: QLC&lt;&#x2F;li&gt;
+&lt;li&gt;Controladora: Phison E21T&lt;&#x2F;li&gt;
+&lt;li&gt;Lectura secuencial (según fabricante): 5000 MB&#x2F;s&lt;&#x2F;li&gt;
+&lt;li&gt;Escritura secuencial (según fabricante): 3600 MB&#x2F;s&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.ctman.cl&#x2F;products&#x2F;ssd-crucial-p3-plus-1tb-pcie-4-0-m-2-2280-nvme-lectura-5000-mb-s&quot;&gt;CTMan Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.spdigital.cl&#x2F;unidad-ssd-crucial-p3-plus-1tb-pcie-m2-2280-nvme-pcie-gen-4-x4-rendimiento-gen4-para-tu-pc&#x2F;&quot;&gt;SPDigital Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.winpy.cl&#x2F;venta&#x2F;unidad-de-estado-solido-crucial-p3-plus-de-1tb-nvme-4-0-m-2-2280-hasta-5000mb-s&#x2F;?ref=sltd&quot;&gt;Winpy Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;notebookstore.cl&#x2F;crucial-p3-plus-1000gb-3d-nand-nvme-pcie&quot;&gt;Notebook Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.tecnomas.cl&#x2F;producto&#x2F;crucial-p3-plus-1-tb-ct1000p3pssd8&quot;&gt;Tecnomas Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$72990&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;ssd-ai-model-options&quot;&gt;SSD AI Model options&lt;&#x2F;h2&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Observation&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;For the AI model and the documents it will work with only 1 ssd is considered&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;crucial-p3-plus-4-tb-ct4000p3pssd8&quot;&gt;Crucial P3 Plus 4 TB (CT4000P3PSSD8)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;ssd2.png&quot; alt=&quot;Crucial P3 Plus 4 TB&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Línea: Crucial P3 Plus&lt;&#x2F;li&gt;
+&lt;li&gt;Capacidad: 4 TB&lt;&#x2F;li&gt;
+&lt;li&gt;Formato: M.2 (2280)&lt;&#x2F;li&gt;
+&lt;li&gt;Bus: PCIe 4.0 x4&lt;&#x2F;li&gt;
+&lt;li&gt;¿Posee DRAM?: No&lt;&#x2F;li&gt;
+&lt;li&gt;Tipo memoria NAND: QLC&lt;&#x2F;li&gt;
+&lt;li&gt;Controladora: Phison E21T&lt;&#x2F;li&gt;
+&lt;li&gt;Lectura secuencial (según fabricante): 4800 MB&#x2F;s&lt;&#x2F;li&gt;
+&lt;li&gt;Escritura secuencial (según fabricante): 4100 MB&#x2F;s&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;notebookstore.cl&#x2F;p3-plus-4000gb-3d-nand-nvme-pcie-m2-ssd&quot;&gt;Notebook Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$270990&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;hdd-options-storage&quot;&gt;HDD Options (Storage)&lt;&#x2F;h2&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Observation&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;For the storage it is considered to have 32TB configured in RAID yet to be defined. Therefore 4 HDD of either 10TB or 12TB are considered.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;seagate-ironwolf-12-tb-st12000vn0008&quot;&gt;Seagate IronWolf 12 TB (ST12000VN0008)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;hdd1.png&quot; alt=&quot;Seagate IronWolf 12 TB&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tipo: HDD&lt;&#x2F;li&gt;
+&lt;li&gt;Línea: Seagate IronWolf&lt;&#x2F;li&gt;
+&lt;li&gt;Capacidad: 12 TB&lt;&#x2F;li&gt;
+&lt;li&gt;RPM: 7200 rpm&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño: 3.5&quot;&lt;&#x2F;li&gt;
+&lt;li&gt;Bus: SATA 3 (6.0 Gb&#x2F;s)&lt;&#x2F;li&gt;
+&lt;li&gt;Búfer: 256 MB&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;tienda.pc-express.cl&#x2F;index.php?route=product&#x2F;product&amp;amp;product_id=9565&quot;&gt;PC Express Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;1 x CLP$306915
+4 x CLP$1227660&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;western-digital-red-plus-12-tb-wd120efbx&quot;&gt;Western Digital Red Plus 12 TB (WD120EFBX)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;hdd2.png&quot; alt=&quot;Western Digital Red Plus 12 TB&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tipo: HDD&lt;&#x2F;li&gt;
+&lt;li&gt;Línea: Western Digital Red Plus&lt;&#x2F;li&gt;
+&lt;li&gt;Capacidad: 12 TB&lt;&#x2F;li&gt;
+&lt;li&gt;RPM: 7200 rpm&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño: 3.5&quot;&lt;&#x2F;li&gt;
+&lt;li&gt;Bus: SATA 3 (6.0 Gb&#x2F;s)&lt;&#x2F;li&gt;
+&lt;li&gt;Búfer: 256 MB&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.myshop.cl&#x2F;producto&#x2F;hdd-12-tb-interno-wd-red-plus-35-sata-6gbs-p17033&quot;&gt;MyShop Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;notebookstore.cl&#x2F;wd-red-plus-nas-12tb-wd120efbx&quot;&gt;Notebook Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.tecnomas.cl&#x2F;producto&#x2F;western-digital-wd-red-plus-nas-hard-drive-hard-drive-internal-hard-drive-12-tb-3-5-7200-rpm-serial-ata&quot;&gt;Tecnomas Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.ctman.cl&#x2F;products&#x2F;western-digital-wd-red-plus-nas-hard-drive-hard-drive-internal-hard-drive-2&quot;&gt;CTMan Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.winpy.cl&#x2F;venta&#x2F;disco-duro-western-digital-red-plus-de-12tb-for-nas-formato-3-5-7200rpm-sata-256mb-de-cache&#x2F;?ref=sltd&quot;&gt;Winpy Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;1 x CLP$314880
+4 x CLP$1259520&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;chassis-options&quot;&gt;Chassis Options&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;segotep-endura-pro-white&quot;&gt;Segotep Endura Pro+ - White&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;chassis1.png&quot; alt=&quot;Segotep Endura Pro+ - White&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fabricante: Segotep&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño máximo de placa madre: Extended ATX&lt;&#x2F;li&gt;
+&lt;li&gt;Fuente de poder: No posee&lt;&#x2F;li&gt;
+&lt;li&gt;Panel lateral: No&lt;&#x2F;li&gt;
+&lt;li&gt;Vidrio templado: No&lt;&#x2F;li&gt;
+&lt;li&gt;Color: Blanco&lt;&#x2F;li&gt;
+&lt;li&gt;Iluminación: No&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño: 436 x 230 x 456 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Largo máximo de tarjeta de video: 420 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Alto máximo de cooler: 178 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Peso: 0 g&lt;&#x2F;li&gt;
+&lt;li&gt;Ubicación de la PSU: Inferior&lt;&#x2F;li&gt;
+&lt;li&gt;Slots de expansión: 7&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos
+&lt;ul&gt;
+&lt;li&gt;1x USB 2.0&lt;&#x2F;li&gt;
+&lt;li&gt;1x USB 3.1 Gen 1 (USB 3.0)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Bahías
+&lt;ul&gt;
+&lt;li&gt;5¼ externas: 0&lt;&#x2F;li&gt;
+&lt;li&gt;3½ externas: 0&lt;&#x2F;li&gt;
+&lt;li&gt;3½ internas: 3&lt;&#x2F;li&gt;
+&lt;li&gt;2½ internas: 1&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Ventilación
+&lt;ul&gt;
+&lt;li&gt;Espacios para vent. frontales
+&lt;ul&gt;
+&lt;li&gt;No posee&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. traseros
+&lt;ul&gt;
+&lt;li&gt;1 x 140 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. laterales
+&lt;ul&gt;
+&lt;li&gt;2 x 120 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. superiores
+&lt;ul&gt;
+&lt;li&gt;3 x 120 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. inferiores
+&lt;ul&gt;
+&lt;li&gt;3 x 120 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Ventiladores incluidos
+&lt;ul&gt;
+&lt;li&gt;6 ventiladores&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;power-play.cl&#x2F;product&#x2F;gabinete-endura-pro-white-segotep-e-atx-6-ventiladores&#x2F;&quot;&gt;Power Play Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$84990&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;casecom-c360b&quot;&gt;Casecom C360B&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;chassis2.png&quot; alt=&quot;Casecom C360B&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fabricante: Casecom&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño máximo de placa madre: Extended ATX&lt;&#x2F;li&gt;
+&lt;li&gt;Fuente de poder: No posee&lt;&#x2F;li&gt;
+&lt;li&gt;Panel lateral: No&lt;&#x2F;li&gt;
+&lt;li&gt;Vidrio templado: No&lt;&#x2F;li&gt;
+&lt;li&gt;Color: Negro&lt;&#x2F;li&gt;
+&lt;li&gt;Iluminación: No&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño: 420 x 480 x 230 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Largo máximo de tarjeta de video: 410 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Alto máximo de cooler: 185 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Peso: 0 g&lt;&#x2F;li&gt;
+&lt;li&gt;Ubicación de la PSU: Lateral&lt;&#x2F;li&gt;
+&lt;li&gt;Slots de expansión: 7&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos
+&lt;ul&gt;
+&lt;li&gt;2x USB 2.0&lt;&#x2F;li&gt;
+&lt;li&gt;1x USB 3.1 Gen 1 (USB 3.0)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Bahías
+&lt;ul&gt;
+&lt;li&gt;5¼ externas: 0&lt;&#x2F;li&gt;
+&lt;li&gt;3½ externas: 0&lt;&#x2F;li&gt;
+&lt;li&gt;3½ internas: 2&lt;&#x2F;li&gt;
+&lt;li&gt;2½ internas: 2&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Ventilación
+&lt;ul&gt;
+&lt;li&gt;Espacios para vent. frontales
+&lt;ul&gt;
+&lt;li&gt;3 x 140 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. traseros
+&lt;ul&gt;
+&lt;li&gt;1 x 140 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. laterales
+&lt;ul&gt;
+&lt;li&gt;2 x 120 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. superiores
+&lt;ul&gt;
+&lt;li&gt;3 x 140 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. inferiores
+&lt;ul&gt;
+&lt;li&gt;No posee&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Ventiladores incluidos
+&lt;ul&gt;
+&lt;li&gt;3 x 120 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;infographicssolutions.cl&#x2F;producto&#x2F;casecom-c360b&#x2F;&quot;&gt;Infographic Solutions Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$68029&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;gamdias-athena-m3-black&quot;&gt;Gamdias Athena M3 - Black&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;chassis3.png&quot; alt=&quot;Gamdias Athena M3 - Black&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fabricante: Gamdias&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño máximo de placa madre: Extended ATX&lt;&#x2F;li&gt;
+&lt;li&gt;Fuente de poder: No posee&lt;&#x2F;li&gt;
+&lt;li&gt;Panel lateral: No&lt;&#x2F;li&gt;
+&lt;li&gt;Vidrio templado: No&lt;&#x2F;li&gt;
+&lt;li&gt;Color: Negro&lt;&#x2F;li&gt;
+&lt;li&gt;Iluminación: RGB Programable (ARGB &#x2F; 3-pin &#x2F; 5V)&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño: 460 x 450 x 218 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Largo máximo de tarjeta de video: 420 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Alto máximo de cooler: 170 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Peso: 6590 g&lt;&#x2F;li&gt;
+&lt;li&gt;Ubicación de la PSU: Inferior&lt;&#x2F;li&gt;
+&lt;li&gt;Slots de expansión: 7&lt;&#x2F;li&gt;
+&lt;li&gt;Puertos
+&lt;ul&gt;
+&lt;li&gt;1x USB 2.0&lt;&#x2F;li&gt;
+&lt;li&gt;1x USB 3.1 Gen 1 (USB 3.0)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Bahías
+&lt;ul&gt;
+&lt;li&gt;5¼ externas: 0&lt;&#x2F;li&gt;
+&lt;li&gt;3½ externas: 0&lt;&#x2F;li&gt;
+&lt;li&gt;3½ internas: 2&lt;&#x2F;li&gt;
+&lt;li&gt;2½ internas: 4&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Ventilación
+&lt;ul&gt;
+&lt;li&gt;Espacios para vent. frontales
+&lt;ul&gt;
+&lt;li&gt;3 x 120 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. traseros
+&lt;ul&gt;
+&lt;li&gt;1 x 120 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. laterales
+&lt;ul&gt;
+&lt;li&gt;No posee&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. superiores
+&lt;ul&gt;
+&lt;li&gt;2 x 140 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Espacios para vent. inferiores
+&lt;ul&gt;
+&lt;li&gt;No posee&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Ventiladores incluidos
+&lt;ul&gt;
+&lt;li&gt;4 x 120 mm&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.pcfactory.cl&#x2F;producto&#x2F;53022-gamdias-gabinete-atx-athena-m3-argb&quot;&gt;PC Factory Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$52490&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;psu-options&quot;&gt;PSU Options&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;fsp-group-cannon-pro-fsp2000-52agpbi-2000-w&quot;&gt;FSP Group CANNON PRO FSP2000-52AGPBI (2000 W)&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;psu1.png&quot; alt=&quot;FSP Group CANNON PRO FSP2000-52AGPBI (2000 W)&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Potencia: 2000 W&lt;&#x2F;li&gt;
+&lt;li&gt;Certificación: 80PLUS Gold&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño: Estandar ATX&lt;&#x2F;li&gt;
+&lt;li&gt;PFC activo: Sí&lt;&#x2F;li&gt;
+&lt;li&gt;Modular: Sí&lt;&#x2F;li&gt;
+&lt;li&gt;Características técnicas
+&lt;ul&gt;
+&lt;li&gt;Corriente en la línea de 12 V: 166 &#x2F; 6 &#x2F; A&lt;&#x2F;li&gt;
+&lt;li&gt;Corriente en la línea de 5 V: 25 A&lt;&#x2F;li&gt;
+&lt;li&gt;Corriente en la línea de 3.3 V: 25 A&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Conectores de energía
+&lt;ul&gt;
+&lt;li&gt;1x 20+4 pines (Motherboard)&lt;&#x2F;li&gt;
+&lt;li&gt;2x 4+4 pines (CPU)&lt;&#x2F;li&gt;
+&lt;li&gt;18x 6+2 pines (PCI-Express)&lt;&#x2F;li&gt;
+&lt;li&gt;1x Floppy&lt;&#x2F;li&gt;
+&lt;li&gt;5x Molex&lt;&#x2F;li&gt;
+&lt;li&gt;14x SATA&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;n1g.cl&#x2F;Home&#x2F;computacion&#x2F;2880-fuente-de-poder-canon-pro-2000w-80-gold-full-modular.html&quot;&gt;N1G Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$525263&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;cooling-options&quot;&gt;Cooling Options&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;gamemax-iceburg-240-digital-wh&quot;&gt;GameMax IceBurg 240 Digital WH&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;cooling1.png&quot; alt=&quot;GameMax IceBurg 240 Digital WH&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Marca: GameMax&lt;&#x2F;li&gt;
+&lt;li&gt;Tipo: Refrigeración líquida&lt;&#x2F;li&gt;
+&lt;li&gt;Peso: Desconocido&lt;&#x2F;li&gt;
+&lt;li&gt;RPM: 800 - 1800 rpm&lt;&#x2F;li&gt;
+&lt;li&gt;Ruido: 36.9 dB&lt;&#x2F;li&gt;
+&lt;li&gt;Flujo de aire: 58.8 CFM&lt;&#x2F;li&gt;
+&lt;li&gt;Altura: 45 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño ventilador: 120 mm&lt;&#x2F;li&gt;
+&lt;li&gt;¿Heatpipes?: No&lt;&#x2F;li&gt;
+&lt;li&gt;Sockets compatibles:
+&lt;ul&gt;
+&lt;li&gt;AM2 &#x2F; AM2+&lt;&#x2F;li&gt;
+&lt;li&gt;AM3 &#x2F; AM3+&lt;&#x2F;li&gt;
+&lt;li&gt;AM4 &#x2F; AM5&lt;&#x2F;li&gt;
+&lt;li&gt;FM1&lt;&#x2F;li&gt;
+&lt;li&gt;FM2 &#x2F; FM2+&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 115x &#x2F; LGA 1200&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 1700&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 1851&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 2011 &#x2F; LGA 2011-v3&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 2066&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;store.infor-ingen.com&#x2F;producto&#x2F;watercooling-gamemax-iceburg-240-digital-wh&#x2F;&quot;&gt;Infor Ingen Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$73034&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h3 id=&quot;cougar-poseidon-elite-argb-240-black&quot;&gt;Cougar Poseidon Elite ARGB 240 - Black&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;cooling2.png&quot; alt=&quot;Cougar Poseidon Elite ARGB 240 - Black&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Marca: Cougar&lt;&#x2F;li&gt;
+&lt;li&gt;Tipo: Refrigeración líquida&lt;&#x2F;li&gt;
+&lt;li&gt;Peso: Desconocido&lt;&#x2F;li&gt;
+&lt;li&gt;RPM: 500 - 2200 rpm&lt;&#x2F;li&gt;
+&lt;li&gt;Ruido: 33.5 dB&lt;&#x2F;li&gt;
+&lt;li&gt;Flujo de aire: 62.53 CFM&lt;&#x2F;li&gt;
+&lt;li&gt;Altura: 51 mm&lt;&#x2F;li&gt;
+&lt;li&gt;Tamaño ventilador: 120 mm&lt;&#x2F;li&gt;
+&lt;li&gt;¿Heatpipes?: No&lt;&#x2F;li&gt;
+&lt;li&gt;Sockets compatibles:
+&lt;ul&gt;
+&lt;li&gt;AM2 &#x2F; AM2+&lt;&#x2F;li&gt;
+&lt;li&gt;AM3 &#x2F; AM3+&lt;&#x2F;li&gt;
+&lt;li&gt;AM4 &#x2F; AM5&lt;&#x2F;li&gt;
+&lt;li&gt;FM1&lt;&#x2F;li&gt;
+&lt;li&gt;FM2 &#x2F; FM2+&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 115x &#x2F; LGA 1200&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 1366&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 1700&lt;&#x2F;li&gt;
+&lt;li&gt;LGA 1851&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;centralgamer.cl&#x2F;refrigeracion-pc&#x2F;refrigeracion-liquida-cougar-poseidon-elite-argb-240-black&#x2F;&quot;&gt;Central Gamer Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.myshop.cl&#x2F;producto&#x2F;poseidon-elite-argb-black-240-p36352&quot;&gt;MyShop Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.spdigital.cl&#x2F;ventilador-cpu-water-cooler-poseidon-elite-argb-240-cougar&#x2F;&quot;&gt;SPDigital Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;notebookstore.cl&#x2F;ventilador-cpu-water-cooler-poseidon-elite-argb-240-cougar&quot;&gt;Notebook Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$91990&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+&lt;h2 id=&quot;other-components&quot;&gt;Other Components&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;airmax-combo-teclado-y-mouse-gmk-01&quot;&gt;airMAX Combo Teclado y Mouse GMK-01&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;img&#x2F;20250515-Deepseek&#x2F;other1.png&quot; alt=&quot;airMAX Combo Teclado y Mouse GMK-01&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Marca: airMAX&lt;&#x2F;li&gt;
+&lt;li&gt;Part number: N&#x2F;A&lt;&#x2F;li&gt;
+&lt;li&gt;Cableado: Alámbrico&lt;&#x2F;li&gt;
+&lt;li&gt;Tecnología conexión: USB 2.0&lt;&#x2F;li&gt;
+&lt;li&gt;Iluminación: No&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Teclado&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tipo: Tradicional&lt;&#x2F;li&gt;
+&lt;li&gt;Tipo switch: Tradicional&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Mouse&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tracking: Genérico [Óptico]&lt;&#x2F;li&gt;
+&lt;li&gt;Cantidad de botones: 3&lt;&#x2F;li&gt;
+&lt;li&gt;DPI máximo: 1200&lt;&#x2F;li&gt;
+&lt;li&gt;Polling rate: 125 Hz&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;www.eylstore.cl&#x2F;producto&#x2F;kit-teclado-y-mouse-clio-usb-negro-gmk-1&#x2F;&quot;&gt;EYL Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;bip.cl&#x2F;combo-teclado-mouse-usb-espaol-gmk1es-pn-GMK-1-ES_28784&quot;&gt;BIP Store&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+
+
+&lt;div
+  class=&quot;my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]&quot;
+  style=&quot;--admonition-bg: rgba(83, 211, 230, 0.1);&quot;
+&gt;
+  &lt;div class=&quot;flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1&quot;&gt;
+    &lt;div
+      class=&quot;mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert&quot;
+      style=&quot;--url: url(.&#x2F;icons&#x2F;info.svg);&quot;
+    &gt;
+      info
+    &lt;&#x2F;div&gt;
+    &lt;span&gt;&lt;strong&gt;Price&lt;&#x2F;strong&gt;&lt;&#x2F;span&gt;
+  &lt;&#x2F;div&gt;
+  &lt;div class=&quot;pl-4&quot;&gt;&lt;p&gt;CLP$9269&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Running Deepseek locally</title>
+        <published>2025-05-14T00:00:00+00:00</published>
+        <updated>2025-05-14T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              OcarCampos
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="http://ocar.engineer/posts/20250514-deepseekrequirements/"/>
+        <id>http://ocar.engineer/posts/20250514-deepseekrequirements/</id>
+        
+        <summary type="html">&lt;p&gt;I have been asked to design a machine capable of running Deepseek locally for a company that is interested in leveraging AI to improve their processes. The company is strict about data governance, security, and—importantly—budget.&lt;&#x2F;p&gt;</summary>
+        
+    </entry>
+</feed>

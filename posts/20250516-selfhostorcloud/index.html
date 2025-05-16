@@ -1,0 +1,553 @@
+<!doctype html>
+<html class="not-ready lg:text-base overflow-y-scroll scroll-pt-14" lang="en">
+
+<head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="generator" content="Zola" />
+  <title>Selfhost or Cloud? Cost/Risk Analysis | OnBIM</title>
+  <meta property="og:site_name" content="OnBIM" />
+  <meta property="og:title" content="Selfhost or Cloud? Cost/Risk Analysis" />
+  <meta name="description" content="Self-hosted storage is almost always more cost-effective for large-scale, persistent needs, specially if there is a focus on data privacy and security.For GPU compute (Deepseek), cloud is often cheape…" />
+  <meta property="og:description" content="Self-hosted storage is almost always more cost-effective for large-scale, persistent needs, specially if there is a focus on data privacy and security.For GPU compute (Deepseek), cloud is often cheaper unless you maintain high utilization (&amp;gt;20–30%) so there is to be mindful of the utilization rat…" />
+  <meta property="og:url" content="http://ocar.engineer/posts/20250516-selfhostorcloud/" />
+  <link rel="canonical" href="http://ocar.engineer/posts/20250516-selfhostorcloud/" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-05-16T00:00:00+00:00" />
+  <meta property="article:tag" content="Deepseek" />
+  <meta property="article:tag" content="AI" />
+  <meta property="og:image" content="http://ocar.engineer/img/20250515-Deepseek/selfhost-cloudhost.png" />
+  <meta property="og:image:alt" content="Selfhost or Cloud?" />
+  <meta property="og:image:width" content="768" />
+  <meta property="og:image:height" content="288" />
+  <link rel="alternate" type="application/atom+xml" href="http://ocar.engineer/atom.xml" title="OnBIM | Atom" />
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed" />
+  <!-- Begin Head inject -->
+  
+  <!-- End Head inject -->
+  <link rel="stylesheet" href="http://ocar.engineer/main.min.css?h=fc65ba308cf36d3ba82c" />
+  <style>
+  :root{--bg: #f4f4f5; --header: #e4e4e7; color-scheme: light;}
+  :root.dark{--bg: #18181b; --header: #27272a; color-scheme: dark;}
+  </style>
+  <meta name="theme-color" data-light="#e4e4e7" data-dark="#27272a" content="#e4e4e7" />
+  <link rel="icon" type="image/x-icon" sizes="16x16" href="http://ocar.engineer/favicon.ico" />
+  <link rel="apple-touch-icon" type="image/png" href="http://ocar.engineer/apple-touch-icon.png?h=58bee300054c5308feb3" />
+  <link rel="icon" type="image/png" href="http://ocar.engineer/android-icon.png?h=8d80ec95446bd2c36826" />
+  <script src="http://ocar.engineer/js/linkita.min.js?h=1dd3ed42fc674277bc34"></script>
+  <!-- Begin Head End inject -->
+  
+  <!-- End Head End inject -->
+</head>
+
+<body class="text-black duration-100 ease-out bg-[var(--bg)] dark:text-white">
+  <!-- Header -->
+<header class="bg-[var(--header)] fixed top-0 z-40 mx-auto min-h-[3.25rem] w-full header-icons">
+  <div class="mx-auto w-full max-w-4xl p-2.5 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center min-h-8">
+        <a title="Go to home page" accesskey="!"
+          href="http://ocar.engineer/" class="text-2xl font-semibold">OnBIM</a>
+        <button type="button" title="Switch color scheme" accesskey="$"
+          onclick="window.linkita.toggleDarkMode();" ondblclick="window.linkita.resetDarkMode();"
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0] bg-center bg-no-repeat bg-cover dark:invert [background-image:var(--icon-theme-dark)] dark:[background-image:var(--icon-theme-light)]"
+        ></button>
+      </div>
+      <div title="Menu" role="button" accesskey="+" tabindex="0"
+        class="btn-menu relative z-50 flex h-8 w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+        onclick="window.linkita.toggleHeaderMenu();"
+        onkeydown="(event.keyCode == 13 || event.keyCode == 32) ? event.preventDefault() || window.linkita.toggleHeaderMenu() : true;"
+      ></div>
+    </div>
+    <nav class="flex w-full items-center lg:w-auto">
+      <menu
+        class="nav-wrapper flex w-full flex-col py-2 lg:w-auto lg:flex-row lg:self-center lg:py-0">
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/posts/"
+          >Archive</a>
+        </li>
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/tags/"
+          >Tags</a>
+        </li>
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/about/"
+          >About</a>
+        </li>
+      </menu>
+      <!-- Begin Header Nav inject -->
+      
+      <!-- End Header Nav inject -->
+    </nav>
+  </div>
+</header>
+
+  <!-- Begin Body Start inject -->
+  
+  <!-- End Body Start inject -->
+  <main class="prose prose-neutral relative mx-auto min-h-[calc(100%-4rem)]
+    max-w-3xl break-words px-4 pb-12 pt-28 lg:pt-32 dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg">
+    
+<article>
+  <!-- Begin Page Start inject -->
+  
+  <!-- End Page Start inject -->
+
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Selfhost or Cloud? Cost&#x2F;Risk Analysis</h1>
+    <!-- Page Info -->
+<div class="text-sm antialiased opacity-80"><time
+      datetime="2025-05-16T00:00:00+00:00">2025-05-16</time><span
+        class="mx-1">&middot;</span><time
+    datetime="PT0H10M0S">10&nbsp;min</time>
+</div>
+
+  </header>
+  <figure class="mb-12 mt-0">
+    <img
+      class="h-auto w-full rounded-lg"
+      src="http://ocar.engineer/img/20250515-Deepseek/selfhost-cloudhost.png"
+      alt="Selfhost or Cloud?"
+      width="768"
+      height="288"
+    />
+  </figure>
+  <!-- TOC -->
+<div class="block-bg mb-12 rounded-lg p-2 text-lg">
+  <details>
+    <summary class="select-none py-0.5 lg:py-1 pl-4" accesskey="=">
+      <span class="cursor-pointer">Table of Contents</span>
+    </summary>
+    <div class="px-2">
+      <ul>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#1-scenario-overview">1. Scenario Overview</a>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#2-cloud-options">2. Cloud Options</a>
+          <ul>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#2-1-gpu-providers">2.1 GPU Providers</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#2-2-storage-providers">2.2 Storage Providers</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#3-cost-analysis">3. Cost Analysis</a>
+          <ul>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#3-1-estimated-electricity-consumption">3.1 Estimated Electricity Consumption</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#3-2-self-hosting-cost-case-1">3.2 Self-Hosting Cost Case 1</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#3-3-self-hosting-cost-case-2">3.3 Self-Hosting Cost Case 2</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#3-3-cloud-option-cost">3.3 Cloud Option Cost</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#4-risk-operational-assessment">4. Risk &amp; Operational Assessment</a>
+          <ul>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#self-hosting">Self-Hosting</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#cloud">Cloud</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#5-1-year-3-year-cost-comparison">5. 1-Year &amp; 3-Year Cost Comparison</a>
+          <ul>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#case-1-2x-rtx-5090-gpus-20tb-storage-usable">Case 1: 2x RTX 5090 GPUs + 20TB Storage (usable)</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#case-2-20tb-usable-storage-raid-1">Case 2: 20TB Usable Storage (RAID 1)</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#6-observations">6. Observations</a>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#7-practical-considerations-utilization">7. Practical Considerations &amp; Utilization</a>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#8-conclusion">8. Conclusion</a>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#9-appendices">9. Appendices</a>
+          <ul>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#a-calculation-formulas">A. Calculation Formulas</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#b-provider-notes">B. Provider Notes</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250516-selfhostorcloud/#c-sources">C. Sources</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+  <!-- Content -->
+  <section><ul>
+<li><strong>Self-hosted storage</strong> is almost always more cost-effective for large-scale, persistent needs, specially if there is a focus on data privacy and security.</li>
+<li>For GPU compute (Deepseek), cloud is often cheaper unless you maintain high utilization <strong>(&gt;20–30%)</strong> so there is to be mindful of the utilization rate and what the goals are before investing.</li>
+<li>After some research, a hybrid approach—self-hosted storage, cloud GPUs for burst analysis—is optimal for most organizations but all depends on the use case and goals.</li>
+<li>See detailed cost, risk, and operational breakdowns below for informed decision-making given your own scenario.</li>
+</ul>
+<span id="continue-reading"></span>
+<hr />
+<h2 id="1-scenario-overview">1. Scenario Overview</h2>
+<ul>
+<li><strong>Self-hosted build price:</strong> In the previous post, I calculated the cost of a custom build for two cases. Case 1 is a build with 2x RTX 5090 GPUs and Case 2 is a build without GPUs. The cost of the custom build for Case 1 is ~CLP$12,101,864 (≈ USD $13,000) and for Case 2 is ~CLP$3,863,084 (≈ USD $4,200).</li>
+<li><strong>Specs:</strong> the build considers 2x RTX 5090 GPUs, high-end CPU, 48TB+ local storage, 128GB RAM and a PSU of 2000W for Case 1 and for ther sake of simplicity the same PSU for Case 2 but without the GPUs.</li>
+<li><strong>Use-cases:</strong> the build intention is to provide Deepseek AI, large document analysis, enterprise file storage, future web hosting of applications all for a company of around 20-30 employees.</li>
+<li><strong>Electricity:</strong> the build consumes in the worst scenario ~USD$4,000/year in electricity bills. This is running at full capacity 24/7.</li>
+</ul>
+<hr />
+<h2 id="2-cloud-options">2. Cloud Options</h2>
+<p>In order to make a comparisson of the running costs of the server vs the cloud options, several providers were evaluated to provide a computer capacity similar to what the custom build provides. The providers were selected based on the computer power provided with a bias on asian providers, nonetheless, providers from the US were also selected for comparisson of prices and to have a global perspective.</p>
+<p>The storage providers were selected based on the same criteria as the GPU providers.</p>
+<h3 id="2-1-gpu-providers">2.1 GPU Providers</h3>
+<table><thead><tr><th>Provider</th><th>Country</th><th>GPU Type</th><th>Typical Price (USD/hr)</th><th>Notes</th></tr></thead><tbody>
+<tr><td>DigitalOcean</td><td>USA</td><td>H100</td><td>~$1.57</td><td>Pay-as-you-go, $1.57/hr/GPU</td></tr>
+<tr><td>GPU Mart</td><td>Singapore</td><td>4090</td><td>~$1.00</td><td>Asia-based, scalable, support for AI</td></tr>
+<tr><td>Alibaba/Tencent</td><td>China</td><td>A100/4090</td><td>~$1.20–$1.50</td><td>Mainland China, enterprise contracts</td></tr>
+<tr><td>Hyperbolic</td><td>USA/Singapore</td><td>H100/4090</td><td>H100 $0.99+, 4090 $0.49+</td><td>Market-based, prices vary</td></tr>
+<tr><td>RunPod</td><td>USA</td><td>H100/4090</td><td>H100 ~$2.10, 4090 ~$1.20</td><td>Market-based, prices vary</td></tr>
+<tr><td>JarvisLabs</td><td>India</td><td>H100/4090</td><td>H100 ~$2.99, 4090 ~$1.29</td><td>Market-based, prices vary</td></tr>
+<tr><td>Vast.ai</td><td>USA</td><td>H100/4090</td><td>H100 ~$2.07, 4090 ~$0.36</td><td>Market-based, prices vary</td></tr>
+</tbody></table>
+<h3 id="2-2-storage-providers">2.2 Storage Providers</h3>
+<table><thead><tr><th>Provider</th><th>Country</th><th>20 TB Storage (Monthly)</th><th>20 TB Storage (Annual)</th><th>Notes</th></tr></thead><tbody>
+<tr><td>DigitalOcean</td><td>USA</td><td>$2,048</td><td>$24,576</td><td>$0.10/GB/month, block storage</td></tr>
+<tr><td>Alibaba Cloud</td><td>China</td><td>$430</td><td>$5,160</td><td>$0.021/GB/month, OSS Standard</td></tr>
+<tr><td>Tencent Cloud</td><td>China</td><td>$430</td><td>$5,160</td><td>$0.021/GB/month, COS Standard</td></tr>
+<tr><td>GPU Mart</td><td>Singapore</td><td>$400–2,000 (estimate)</td><td>$4,800–24,000 (est.)</td><td>Based on market averages, not public pricing</td></tr>
+<tr><td>Self-Hosting</td><td>Local</td><td>One-time: ~$1,500</td><td>-</td><td>4 × 8TB HDDs, no monthly fee, just electricity</td></tr>
+</tbody></table>
+<hr />
+<h2 id="3-cost-analysis">3. Cost Analysis</h2>
+<p>In order to effectively compare the options of self host vs cloud, it is important to consider the electricity cost of running the server at full capacity. Therefore, the electricity cost is calculated for case 1 build with 2x RTX 5090 GPUs and case 2 build without GPUs and for the purpose of storing data only.</p>
+<h3 id="3-1-estimated-electricity-consumption">3.1 Estimated Electricity Consumption</h3>
+<table><thead><tr><th>Build Option</th><th>Estimated Power Draw (W)</th><th>kWh/month</th><th>kWh/year</th><th>Annual Electricity Cost (USD)</th></tr></thead><tbody>
+<tr><td>Case 1: 2× RTX 5090 GPUs</td><td>1,650</td><td>1,205</td><td>14,460</td><td>~$4,000</td></tr>
+<tr><td>Case 2: Without GPU</td><td>500</td><td>365</td><td>4,444</td><td>~$1,260</td></tr>
+</tbody></table>
+
+
+<div
+  class="my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]"
+  style="--admonition-bg: rgba(101, 31, 255, 0.1);"
+>
+  <div class="flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1">
+    <div
+      class="mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert"
+      style="--url: url(./icons/example.svg);"
+    >
+      example
+    </div>
+    <span><strong>Assumptions</strong></span>
+  </div>
+  <div class="pl-4"><ul>
+<li><strong>Case 1:</strong> estimate is based on previous calculations for a dual RTX 5090 build (1,650W, 24/7 use, ~$4,000/year at local rates).</li>
+<li><strong>Case 2:</strong> is proportional to the power draw (500W ≈ 30% of full build), so electricity cost is estimated as 30% of $4,000 ≈ $1,260/year.</li>
+<li>Both assume 24/7 operation. Actual usage will vary with workload and power-saving features.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h3 id="3-2-self-hosting-cost-case-1">3.2 Self-Hosting Cost Case 1</h3>
+
+
+<div
+  class="my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]"
+  style="--admonition-bg: rgba(68, 138, 255, 0.1);"
+>
+  <div class="flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1">
+    <div
+      class="mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert"
+      style="--url: url(./icons/note.svg);"
+    >
+      note
+    </div>
+    <span><strong>Case 1</strong></span>
+  </div>
+  <div class="pl-4"><ul>
+<li><strong>Upfront server cost:</strong> ~USD$13,000 (includes 2x RTX 5090, 40TB storage)</li>
+<li><strong>Electricity:</strong> ~USD$335/month (~USD $4,000/year)</li>
+<li><strong>Maintenance:</strong> Requires IT skills, local support</li>
+</ul>
+</div>
+</div>
+<h3 id="3-3-self-hosting-cost-case-2">3.3 Self-Hosting Cost Case 2</h3>
+
+
+<div
+  class="my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]"
+  style="--admonition-bg: rgba(68, 138, 255, 0.1);"
+>
+  <div class="flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1">
+    <div
+      class="mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert"
+      style="--url: url(./icons/note.svg);"
+    >
+      note
+    </div>
+    <span><strong>Case 2</strong></span>
+  </div>
+  <div class="pl-4"><ul>
+<li><strong>Upfront server cost:</strong> ~USD$4200 (40TB storage, High end processor)</li>
+<li><strong>Electricity:</strong> ~USD$105/month (~USD $1,260/year)</li>
+<li><strong>Maintenance:</strong> Requires IT skills, local support</li>
+</ul>
+</div>
+</div>
+<h3 id="3-3-cloud-option-cost">3.3 Cloud Option Cost</h3>
+
+
+<div
+  class="my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]"
+  style="--admonition-bg: rgba(68, 138, 255, 0.1);"
+>
+  <div class="flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1">
+    <div
+      class="mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert"
+      style="--url: url(./icons/note.svg);"
+    >
+      note
+    </div>
+    <span><strong>Cloud Option Cost</strong></span>
+  </div>
+  <div class="pl-4"><ul>
+<li><strong>GPU rental:</strong> USD$0.99–$3/hr for H100/4090, pay-as-you-go.</li>
+<li><strong>Storage:</strong> USD$400–$2,000+/month for 20TB</li>
+<li><strong>Flexibility:</strong> Scale up/down, no hardware risk</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="4-risk-operational-assessment">4. Risk &amp; Operational Assessment</h2>
+<h3 id="self-hosting">Self-Hosting</h3>
+<p>When self hosting there is to consider that any hardware failure or outage will require on-site IT skills to resolve. This is a risk that most of the time is not present when using cloud services as the provider is the one that will take care of any problem with the machine.</p>
+<p>The benefit of a self-hosting solution is that it provides full control and privacy, as the data is stored locally and under the control of the user.</p>
+<p>Personalization of services and scalability are other benefits of self-hosting, as the user can choose the services and hardware that best suit their needs.</p>
+<h3 id="cloud">Cloud</h3>
+<p>Cloud services provide a more cost-effective solution for those who do not require full control and privacy, as the data is stored remotely and under the control of the provider. The cloud option assures high uptime and support, as the provider is the one that will take care of any problem with the machine.</p>
+<p>The cloud option also provides the flexibility to scale up or down as needed, which is a benefit for those who do not have a fixed amount of resources.</p>
+<p>Yet the downside of cloud solutions is that they are not as flexible as self-hosting, as the user is limited by the provider's policies and the hardware is not under the control of the user. The provider can also charge additional fees for certain services, such as data transfer or storage depending on the type of contract signed.</p>
+<hr />
+<h2 id="5-1-year-3-year-cost-comparison">5. 1-Year &amp; 3-Year Cost Comparison</h2>
+<h3 id="case-1-2x-rtx-5090-gpus-20tb-storage-usable">Case 1: 2x RTX 5090 GPUs + 20TB Storage (usable)</h3>
+<table><thead><tr><th>Option</th><th>1-Year Cost</th><th>3-Year Cost</th><th>Control</th><th>Uptime</th><th>Maintenance</th><th>Data Privacy</th></tr></thead><tbody>
+<tr><td>Self-Hosting</td><td>USD$17,000</td><td>USD$25,000</td><td>Full</td><td>Local</td><td>DIY</td><td>Full</td></tr>
+<tr><td>DigitalOcean</td><td>USD$33,746</td><td>USD$101,238</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+<tr><td>Alibaba Cloud</td><td>USD$11,160</td><td>USD$33,480</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+<tr><td>Tencent Cloud</td><td>USD$11,160</td><td>USD$33,480</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+<tr><td>GPU Mart</td><td>USD$10,800–28,000</td><td>USD$32,400–84,000</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+<tr><td>JarvisLabs (H100)</td><td>USD$8,760–26,280</td><td>USD$26,280–78,840</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+</tbody></table>
+
+
+<div
+  class="my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]"
+  style="--admonition-bg: rgba(83, 211, 230, 0.1);"
+>
+  <div class="flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1">
+    <div
+      class="mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert"
+      style="--url: url(./icons/info.svg);"
+    >
+      info
+    </div>
+    <span><strong>Info</strong></span>
+  </div>
+  <div class="pl-4"><p>Cloud costs assume 8 hours/day GPU use, 20TB storage. Adjust for your usage. JarvisLabs pricing is for H100 (closest available to 5090 for cloud rental), at $2.99/hr. 1-year cost is $8,760 (8hr/day) to $26,280 (24/7); 3-year cost is triple.</p>
+</div>
+</div>
+<h3 id="case-2-20tb-usable-storage-raid-1">Case 2: 20TB Usable Storage (RAID 1)</h3>
+<table><thead><tr><th>Option</th><th>1-Year Cost</th><th>3-Year Cost</th><th>Control</th><th>Uptime</th><th>Maintenance</th><th>Data Privacy</th></tr></thead><tbody>
+<tr><td>Self-Hosting</td><td>USD$5,460</td><td>USD$7,890</td><td>Full</td><td>Local</td><td>DIY</td><td>Full</td></tr>
+<tr><td>DigitalOcean</td><td>USD$24,576</td><td>USD$73,728</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+<tr><td>Alibaba Cloud</td><td>USD$5,160</td><td>USD$15,480</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+<tr><td>Tencent Cloud</td><td>USD$5,160</td><td>USD$15,480</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+<tr><td>GPU Mart</td><td>USD$4,800–24,000</td><td>USD$14,400–72,000</td><td>Limited</td><td>High</td><td>Included</td><td>Variable</td></tr>
+</tbody></table>
+
+
+<div
+  class="my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]"
+  style="--admonition-bg: rgba(83, 211, 230, 0.1);"
+>
+  <div class="flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1">
+    <div
+      class="mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert"
+      style="--url: url(./icons/info.svg);"
+    >
+      info
+    </div>
+    <span><strong>Info</strong></span>
+  </div>
+  <div class="pl-4"><p>Storage-only costs for 20TB usable storage (e.g., RAID 1 with 40TB raw capacity for self-hosting). No GPU usage included in these costs.</p>
+</div>
+</div>
+<hr />
+<h2 id="6-observations">6. Observations</h2>
+<ul>
+<li><strong>Storage:</strong> Self-hosting is almost always justified for large-scale, persistent storage due to dramatically lower costs, full control, and no ongoing fees. The risks (hardware failure, outages) can be managed with RAID, backups, and good IT practices.</li>
+<li><strong>Deepseek GPU Compute:</strong> The high up-front cost of GPUs plus ongoing electricity means self-hosting is only cost-effective at high utilization (&gt;20–30%). For bursty or occasional Deepseek analysis, cloud GPUs are more economical and flexible, with no maintenance or power cost. Cloud providers now offer highly competitive, market-based pricing and let you scale up or down as needed.</li>
+<li><strong>Best Practice:</strong> Many organizations use a hybrid model—self-hosting for storage and basic compute, and renting cloud GPUs for heavy, burst, or specialized analysis. This combines cost-effective storage with flexible, scalable compute.</li>
+</ul>
+<table><thead><tr><th>Use Case</th><th>Self-Hosting Justified?</th><th>Cloud Recommended?</th></tr></thead><tbody>
+<tr><td>Storage</td><td>Yes (almost always)</td><td>Only for small/short-term</td></tr>
+<tr><td>Deepseek GPU</td><td>Only at high utilization</td><td>Yes, for burst/intermittent</td></tr>
+</tbody></table>
+<hr />
+<h2 id="7-practical-considerations-utilization">7. Practical Considerations &amp; Utilization</h2>
+<ul>
+<li><strong>Rule-of-thumb:</strong> If you expect to do deep learning for longer than a year at moderate or high utilization, it is cheaper to get a desktop/server. Otherwise, cloud is preferable for short-term or low-utilization needs.</li>
+<li><strong>Utilization rates:</strong>
+<ul>
+<li>Personal desktop: often &lt;15%</li>
+<li>Research cluster: &gt;35%</li>
+<li>Company-wide cluster: &gt;60%</li>
+</ul>
+</li>
+<li><strong>Break-even:</strong> For high utilization (e.g., &gt;15–20%), self-hosting becomes more cost-effective after about 1 year, even considering electricity.</li>
+<li><strong>Recommendation:</strong> For teams, consider a shared cluster for efficiency. For individuals or low-utilization, cloud is more flexible and cost-effective.</li>
+</ul>
+<hr />
+<h2 id="8-conclusion">8. Conclusion</h2>
+<p>Choosing between self-hosting and cloud solutions for large-scale AI and storage is not a one-size-fits-all decision. As highlighted both by industry analysis and real-world user experience, the most effective approach is often hybrid:</p>
+<ul>
+<li><strong>For most organizations and individuals, investing heavily in high-end GPUs for local use is only justified if you require continuous, high-utilization compute.</strong> The up-front costs, ongoing electricity, and maintenance can be substantial, and hardware quickly becomes outdated.</li>
+<li><strong>Cloud GPU rental is ideal for bursty, experimental, or short-term workloads.</strong> It offers instant access to state-of-the-art hardware, no maintenance burden, and the flexibility to scale up or down as your needs change. However, costs can add up quickly with sustained use.</li>
+<li><strong>Self-hosting remains the best value for persistent, high-capacity storage and for users who require full control over their data and infrastructure.</strong> With RAID and good IT practices, risks can be managed, but on-site skills are required for maintenance and troubleshooting.</li>
+<li><strong>A hybrid strategy—using local infrastructure for storage and basic compute, and cloud resources for heavy or specialized AI workloads—offers the best of both worlds.</strong> This allows you to optimize for cost, flexibility, and control, adapting as your needs evolve.</li>
+</ul>
+<p>In summary, let your actual usage patterns and risk tolerance guide your infrastructure choices. For most, the flexibility to combine local and cloud resources will deliver the most value, future-proofing your investment while keeping costs manageable.</p>
+<hr />
+<h2 id="9-appendices">9. Appendices</h2>
+<h3 id="a-calculation-formulas">A. Calculation Formulas</h3>
+<pre><code>Annual GPU Cost = (Hourly Rate) × (Number of GPUs) × (Hours per Day) × (Days per Year)
+Example: $1.57 × 2 × 8 × 365 ≈ $9,170&#x2F;year (DigitalOcean)
+Monthly = Annual &#x2F; 12
+Annual Electricity Cost = (Power in kW) × (Hours per Year) × (Cost per kWh)
+Example: 1.65 kW × 24 × 365 × (CLP$&#x2F;kWh)
+</code></pre>
+<h3 id="b-provider-notes">B. Provider Notes</h3>
+<ul>
+<li>All prices are for typical on-demand rates, market-based and may vary by region and availability.</li>
+<li>Storage prices are for standard object/block storage. Egress/download and API request costs are extra. Self-hosting cost is hardware only.</li>
+</ul>
+<h3 id="c-sources">C. Sources</h3>
+<ul>
+<li><a href="https://codeless.co/gpu-vps/">DigitalOcean GPU Pricing</a> (<a href="https://www.digitalocean.com/products/gpu/">DigitalOcean GPU Droplets</a>)</li>
+<li><a href="https://codeless.co/gpu-vps/">GPU Mart Pricing</a> (<a href="https://gpumart.com/">GPU Mart</a>)</li>
+<li><a href="https://www.atlantic.net/gpu-server-hosting/gpu-cloud-hosting/">Atlantic.Net GPU Hosting</a></li>
+<li><a href="https://www.alibabacloud.com/product/ecs/gpu">Alibaba Cloud GPU Instances</a></li>
+<li><a href="https://intl.cloud.tencent.com/product/gpu">Tencent Cloud GPU Servers</a></li>
+<li><a href="https://docs.hyperbolic.xyz/docs/gpu-marketplace-pricing">Hyperbolic GPU Marketplace Pricing</a> (<a href="https://app.hyperbolic.xyz/">Hyperbolic</a>)</li>
+<li><a href="https://www.runpod.io/pricing">RunPod Pricing</a></li>
+<li><a href="https://jarvislabs.ai/pricing">JarvisLabs Pricing</a></li>
+<li><a href="https://vast.ai/pricing">Vast.ai Pricing</a></li>
+<li><a href="http://ocar.engineer/posts/20250516-selfhostorcloud/consumer-build-parts-list.md">Your local parts list and pricing</a></li>
+<li><a href="http://ocar.engineer/posts/20250516-selfhostorcloud/Deepseek-Requirements.md">Deepseek Requirements</a></li>
+<li><a href="http://ocar.engineer/posts/20250516-selfhostorcloud/README.md">Server Acquisition Project Overview</a></li>
+<li><a href="https://timdettmers.com/2023/01/30/which-gpu-for-deep-learning/#When_is_it_better_to_use_the_cloud_vs_a_dedicated_GPU_desktopserver">The Best GPUs for Deep Learning in 2023 — Tim Dettmers</a></li>
+<li><a href="https://www.reddit.com/r/LocalLLaMA/comments/152uvdv/comment/jsftzk5/">Reddit: Do you find GPU renting worth it for a LocalLLM?</a></li>
+</ul>
+
+
+<div
+  class="my-4 flex flex-col rounded-lg bg-[var(--admonition-bg)]"
+  style="--admonition-bg: rgba(255, 145, 0, 0.1);"
+>
+  <div class="flex items-center rounded-t-lg bg-[var(--admonition-bg)] p-1">
+    <div
+      class="mx-2 h-4 w-4 text-[0] [background:var(--url)_center_center_no-repeat] dark:invert"
+      style="--url: url(./icons/warning.svg);"
+    >
+      warning
+    </div>
+    <span><strong>Disclaimer</strong></span>
+  </div>
+  <div class="pl-4"><p><em>All prices and specifications as of May 2025. Please check provider pages for the latest details.</em></p>
+</div>
+</div>
+</section>
+  <hr />
+  <!-- Post Taxonomies -->
+<footer class="mt-12 flex flex-col" tabindex="-1" accesskey="_">
+  <div class="mb-2 flex flex-wrap">
+    <span class="block-bg mb-1.5 mr-1.5 rounded-lg px-5 py-1.5">Tags</span>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/deepseek/">Deepseek</a>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/ai/">AI</a>
+    
+  </div>
+</footer>
+
+  <!-- Post Nav -->
+<nav class="block-bg mt-12 flex flex-wrap rounded-lg text-lg">
+  <a
+    class="block-hover-mask ml-auto flex min-w-[50%] grow items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline"
+    href="http://ocar.engineer/posts/20250515-deepseekserver/" accesskey="."
+    ><span>Custom Server for Deepseek &amp; Storage</span><span class="ml-1.5">&#8250;</span></a>
+</nav>
+
+  <!-- Begin Page End inject -->
+  
+  <!-- End Page End inject -->
+</article>
+
+  </main>
+  <!-- Footer -->
+<footer class="mx-auto flex lg:mt-5 max-w-3xl flex-wrap items-center px-4 py-3 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+  © <time datetime="2024">2024</time> - <time datetime="2025">2025</time> OnBim | <a href="https://creativecommons.org/licenses/by-sa/4.0/deed">CC BY-SA 4.0</a>
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <span class="mr-6 lg:ml-6">
+      <a class="link" href="https://www.getzola.org/" target="_blank">Powered by Zola</a>
+    </span>
+    <a class="link" href="https://www.getzola.org/themes/linkita/" target="_blank">&#9998; Linkita</a>
+  </div>
+  <!-- Begin Footer inject -->
+  
+  <!-- End Footer inject -->
+</footer>
+
+  
+
+  <!-- Begin Body End inject -->
+  
+  <!-- End Body End inject -->
+</body>
+
+</html>

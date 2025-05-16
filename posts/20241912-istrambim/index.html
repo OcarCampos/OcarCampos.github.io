@@ -1,0 +1,251 @@
+<!doctype html>
+<html class="not-ready lg:text-base overflow-y-scroll scroll-pt-14" lang="en">
+
+<head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="generator" content="Zola" />
+  <title>Road Modeling with ISTRAM BIM | OnBIM</title>
+  <meta property="og:site_name" content="OnBIM" />
+  <meta property="og:title" content="Road Modeling with ISTRAM BIM" />
+  <meta name="description" content="I have been working with BIM methodologies and the 3D world for some time now, mainly in BIM management for the Embalse Las Palmas project. Being on the management side, there is little time left to g…" />
+  <meta property="og:description" content="I have been working with BIM methodologies and the 3D world for some time now, mainly in BIM management for the Embalse Las Palmas project. Being on the management side, there is little time left to get hands-on and actually model, however, this year I have had time to get hands-on with ISTRAM, a 3D…" />
+  <meta property="og:url" content="http://ocar.engineer/posts/20241912-istrambim/" />
+  <link rel="canonical" href="http://ocar.engineer/posts/20241912-istrambim/" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2024-12-19T00:00:00+00:00" />
+  <meta property="article:tag" content="BIM" />
+  <meta property="article:tag" content="3D" />
+  <meta property="article:tag" content="modeling" />
+  <meta property="article:tag" content="roads" />
+  <meta property="og:image" content="http://ocar.engineer/img/20241912-IstramBIM/Frutillar-Nativo-Senal.png" />
+  <meta property="og:image:alt" content="Frutillar Access Route" />
+  <meta property="og:image:width" content="768" />
+  <meta property="og:image:height" content="288" />
+  <link rel="alternate" type="application/atom+xml" href="http://ocar.engineer/atom.xml" title="OnBIM | Atom" />
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed" />
+  <!-- Begin Head inject -->
+  
+  <!-- End Head inject -->
+  <link rel="stylesheet" href="http://ocar.engineer/main.min.css?h=fc65ba308cf36d3ba82c" />
+  <style>
+  :root{--bg: #f4f4f5; --header: #e4e4e7; color-scheme: light;}
+  :root.dark{--bg: #18181b; --header: #27272a; color-scheme: dark;}
+  </style>
+  <meta name="theme-color" data-light="#e4e4e7" data-dark="#27272a" content="#e4e4e7" />
+  <link rel="icon" type="image/x-icon" sizes="16x16" href="http://ocar.engineer/favicon.ico" />
+  <link rel="apple-touch-icon" type="image/png" href="http://ocar.engineer/apple-touch-icon.png?h=58bee300054c5308feb3" />
+  <link rel="icon" type="image/png" href="http://ocar.engineer/android-icon.png?h=8d80ec95446bd2c36826" />
+  <script src="http://ocar.engineer/js/linkita.min.js?h=1dd3ed42fc674277bc34"></script>
+  <!-- Begin Head End inject -->
+  
+  <!-- End Head End inject -->
+</head>
+
+<body class="text-black duration-100 ease-out bg-[var(--bg)] dark:text-white">
+  <!-- Header -->
+<header class="bg-[var(--header)] fixed top-0 z-40 mx-auto min-h-[3.25rem] w-full header-icons">
+  <div class="mx-auto w-full max-w-4xl p-2.5 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center min-h-8">
+        <a title="Go to home page" accesskey="!"
+          href="http://ocar.engineer/" class="text-2xl font-semibold">OnBIM</a>
+        <button type="button" title="Switch color scheme" accesskey="$"
+          onclick="window.linkita.toggleDarkMode();" ondblclick="window.linkita.resetDarkMode();"
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0] bg-center bg-no-repeat bg-cover dark:invert [background-image:var(--icon-theme-dark)] dark:[background-image:var(--icon-theme-light)]"
+        ></button>
+      </div>
+      <div title="Menu" role="button" accesskey="+" tabindex="0"
+        class="btn-menu relative z-50 flex h-8 w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+        onclick="window.linkita.toggleHeaderMenu();"
+        onkeydown="(event.keyCode == 13 || event.keyCode == 32) ? event.preventDefault() || window.linkita.toggleHeaderMenu() : true;"
+      ></div>
+    </div>
+    <nav class="flex w-full items-center lg:w-auto">
+      <menu
+        class="nav-wrapper flex w-full flex-col py-2 lg:w-auto lg:flex-row lg:self-center lg:py-0">
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/posts/"
+          >Archive</a>
+        </li>
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/tags/"
+          >Tags</a>
+        </li>
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/about/"
+          >About</a>
+        </li>
+      </menu>
+      <!-- Begin Header Nav inject -->
+      
+      <!-- End Header Nav inject -->
+    </nav>
+  </div>
+</header>
+
+  <!-- Begin Body Start inject -->
+  
+  <!-- End Body Start inject -->
+  <main class="prose prose-neutral relative mx-auto min-h-[calc(100%-4rem)]
+    max-w-3xl break-words px-4 pb-12 pt-28 lg:pt-32 dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg">
+    
+<article>
+  <!-- Begin Page Start inject -->
+  
+  <!-- End Page Start inject -->
+
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Road Modeling with ISTRAM BIM</h1>
+    <!-- Page Info -->
+<div class="text-sm antialiased opacity-80"><time
+      datetime="2024-12-19T00:00:00+00:00">2024-12-19</time><span
+        class="mx-1">&middot;</span><time
+    datetime="PT0H4M0S">4&nbsp;min</time>
+</div>
+
+  </header>
+  <figure class="mb-12 mt-0">
+    <img
+      class="h-auto w-full rounded-lg"
+      src="http://ocar.engineer/img/20241912-IstramBIM/Frutillar-Nativo-Senal.png"
+      alt="Frutillar Access Route"
+      width="768"
+      height="288"
+    />
+  </figure>
+  <!-- TOC -->
+<div class="block-bg mb-12 rounded-lg p-2 text-lg">
+  <details>
+    <summary class="select-none py-0.5 lg:py-1 pl-4" accesskey="=">
+      <span class="cursor-pointer">Table of Contents</span>
+    </summary>
+    <div class="px-2">
+      <ul>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20241912-istrambim/#modeling-the-routes">Modeling the Routes</a>
+          <ul>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20241912-istrambim/#route-e-377">Route E-377</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20241912-istrambim/#route-e-315">Route E-315</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20241912-istrambim/#frutillar-access-route">Frutillar Access Route</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20241912-istrambim/#las-carditas-access-route">Las Carditas Access Route</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20241912-istrambim/#istram-libraries">ISTRAM Libraries</a>
+        </li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+  <!-- Content -->
+  <section><p>I have been working with BIM methodologies and the 3D world for some time now, mainly in BIM management for the Embalse Las Palmas project. Being on the management side, there is little time left to get hands-on and actually model, however, this year I have had time to get hands-on with ISTRAM, a 3D modeling software for linear works that greatly optimizes the design process and the generation of 3D models for linear works.</p>
+<span id="continue-reading"></span>
+<p>ISTRAM is a Spanish software that is being widely used in road infrastructure projects in Chile, for example, on the Talca-Chillan route, the Loa route, route 78, and other MOP concession projects. In Embalse Las Palmas, we requested its use for the modeling of a 68 km long canal work, which is also a linear work. The result was quite good, so we took the opportunity to request some courses to learn the software and thus be able to model the routes of our project, which are currently modeled in Civil3D and Revit (Yes, you can model routes without problems in Civil3D).</p>
+<p><img src="/img/20241912-IstramBIM/canal_alimentador.png" alt="Canal Alimentador" /></p>
+<h2 id="modeling-the-routes">Modeling the Routes</h2>
+<p>After taking some courses and having the assistance of an ISTRAM engineer, I started modeling 4 routes of the project where I am currently working. For each route, the design was already done and its plans approved, so there was no need to do any design work, but rather to transfer the information from the 2D documentation to the 3D software.</p>
+<p>Since it is parametric software, this task requires expertise to interpret the information present in the plans and be able to enter it where it belongs in the software.</p>
+<p>In general, the modeling process was relatively straightforward, since the plans are quite clear and the general geometry of the routes can be easily modeled in ISTRAM if you are clear about their geometric parameters.</p>
+<h3 id="route-e-377">Route E-377</h3>
+<p>This route is 2.8 kilometers long, has a slow lane for trucks, and a viewpoint to the reservoir.</p>
+<p><img src="/img/20241912-IstramBIM/E377-COO-Aereo.png" alt="E377-COO-Aereo" /></p>
+<h3 id="route-e-315">Route E-315</h3>
+<p>This route is 4.8 kilometers long, does not have a slow lane but does have a viewpoint to the reservoir.</p>
+<p><img src="/img/20241912-IstramBIM/E315-Nativo-Aereo.png" alt="E315-Nativo-Aereo" /></p>
+<h3 id="frutillar-access-route">Frutillar Access Route</h3>
+<p>This route is 1.3 kilometers long, does not have a slow lane but does have a fork for access to the hydrometric station.</p>
+<p><img src="/img/20241912-IstramBIM/Frutillar-Nativo-Senal.png" alt="Frutillar-Nativo-Senal" /></p>
+<h3 id="las-carditas-access-route">Las Carditas Access Route</h3>
+<p>This is the shortest of the routes, with a length of 280 meters, without a slow lane or fork, as it is a direct access to the hydrometric station.</p>
+<p><img src="/img/20241912-IstramBIM/Carditas-COO-Aereo.png" alt="Carditas-COO-Aereo" /></p>
+<h2 id="istram-libraries">ISTRAM Libraries</h2>
+<p>ISTRAM uses a series of libraries for 3D modeling and to optimize the modeling process. These libraries are tailored by country and each particular regulation. In the case of Chile, the regulations are defined through the Road Manual and by CONASET.</p>
+<p>The ISTRAM software offers by default a library package that complies with Chilean regulations, however, this library is not complete and lacks a large number of vertical signs, floor signs, barriers, and other elements typical of road projects in Chile. That is why, during the generation of the BIM models for the project's routes, I also created the missing elements in the official library.</p>
+<p>That is why, once the work was finished, I had generated a complementary library to the official ISTRAM library for Chile. This complementary library can be added to the official one to have a more complete library suitable for a greater number of projects in Chile.</p>
+<p>Below is the link to the GitHub repository where the complementary library can be found, which is freely available to anyone who wishes to use it in their project modeling.</p>
+<p><a href="https://github.com/OcarCampos/IstramLib">Chile Complementary Library</a></p>
+</section>
+  <hr />
+  <!-- Post Taxonomies -->
+<footer class="mt-12 flex flex-col" tabindex="-1" accesskey="_">
+  <div class="mb-2 flex flex-wrap">
+    <span class="block-bg mb-1.5 mr-1.5 rounded-lg px-5 py-1.5">Tags</span>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/bim/">BIM</a>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/3d/">3D</a>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/modeling/">modeling</a>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/roads/">roads</a>
+    
+  </div>
+</footer>
+
+  <!-- Post Nav -->
+<nav class="block-bg mt-12 flex flex-wrap rounded-lg text-lg">
+  <a
+    class="block-hover-mask flex min-w-[50%] grow items-center rounded-l-md p-6 pr-3 font-semibold no-underline"
+    href="http://ocar.engineer/posts/20250118-soilmoisturesensor/" accesskey=","
+    ><span class="mr-1.5">&#8249;</span><span>Smart Plant: Soil Moisture Sensor</span></a>
+  <a
+    class="block-hover-mask ml-auto flex min-w-[50%] grow items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline"
+    href="http://ocar.engineer/posts/20241812-firstpost/" accesskey="."
+    ><span>First Post</span><span class="ml-1.5">&#8250;</span></a>
+</nav>
+
+  <!-- Begin Page End inject -->
+  
+  <!-- End Page End inject -->
+</article>
+
+  </main>
+  <!-- Footer -->
+<footer class="mx-auto flex lg:mt-5 max-w-3xl flex-wrap items-center px-4 py-3 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+  © <time datetime="2024">2024</time> - <time datetime="2025">2025</time> OnBim | <a href="https://creativecommons.org/licenses/by-sa/4.0/deed">CC BY-SA 4.0</a>
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <span class="mr-6 lg:ml-6">
+      <a class="link" href="https://www.getzola.org/" target="_blank">Powered by Zola</a>
+    </span>
+    <a class="link" href="https://www.getzola.org/themes/linkita/" target="_blank">&#9998; Linkita</a>
+  </div>
+  <!-- Begin Footer inject -->
+  
+  <!-- End Footer inject -->
+</footer>
+
+  
+
+  <!-- Begin Body End inject -->
+  
+  <!-- End Body End inject -->
+</body>
+
+</html>

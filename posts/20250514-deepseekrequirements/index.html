@@ -1,0 +1,360 @@
+<!doctype html>
+<html class="not-ready lg:text-base overflow-y-scroll scroll-pt-14" lang="en">
+
+<head prefix="og: https://ogp.me/ns# article: https://ogp.me/ns/article#">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="generator" content="Zola" />
+  <title>Running Deepseek locally | OnBIM</title>
+  <meta property="og:site_name" content="OnBIM" />
+  <meta property="og:title" content="Running Deepseek locally" />
+  <meta name="description" content="I have been asked to design a machine capable of running Deepseek locally for a company that is interested in leveraging AI to improve their processes. The company is strict about data governance, sec…" />
+  <meta property="og:description" content="I have been asked to design a machine capable of running Deepseek locally for a company that is interested in leveraging AI to improve their processes. The company is strict about data governance, security, and—importantly—budget" />
+  <meta property="og:url" content="http://ocar.engineer/posts/20250514-deepseekrequirements/" />
+  <link rel="canonical" href="http://ocar.engineer/posts/20250514-deepseekrequirements/" />
+  <meta property="og:type" content="article" />
+  <meta property="article:published_time" content="2025-05-14T00:00:00+00:00" />
+  <meta property="article:tag" content="Deepseek" />
+  <meta property="article:tag" content="AI" />
+  <meta property="article:tag" content="Requirements" />
+  <meta property="og:image" content="http://ocar.engineer/img/20250515-Deepseek/deepseek-banner.png" />
+  <meta property="og:image:alt" content="Deepseek banner" />
+  <meta property="og:image:width" content="768" />
+  <meta property="og:image:height" content="288" />
+  <link rel="alternate" type="application/atom+xml" href="http://ocar.engineer/atom.xml" title="OnBIM | Atom" />
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed" />
+  <!-- Begin Head inject -->
+  
+  <!-- End Head inject -->
+  <link rel="stylesheet" href="http://ocar.engineer/main.min.css?h=fc65ba308cf36d3ba82c" />
+  <style>
+  :root{--bg: #f4f4f5; --header: #e4e4e7; color-scheme: light;}
+  :root.dark{--bg: #18181b; --header: #27272a; color-scheme: dark;}
+  </style>
+  <meta name="theme-color" data-light="#e4e4e7" data-dark="#27272a" content="#e4e4e7" />
+  <link rel="icon" type="image/x-icon" sizes="16x16" href="http://ocar.engineer/favicon.ico" />
+  <link rel="apple-touch-icon" type="image/png" href="http://ocar.engineer/apple-touch-icon.png?h=58bee300054c5308feb3" />
+  <link rel="icon" type="image/png" href="http://ocar.engineer/android-icon.png?h=8d80ec95446bd2c36826" />
+  <script src="http://ocar.engineer/js/linkita.min.js?h=1dd3ed42fc674277bc34"></script>
+  <!-- Begin Head End inject -->
+  
+  <!-- End Head End inject -->
+</head>
+
+<body class="text-black duration-100 ease-out bg-[var(--bg)] dark:text-white">
+  <!-- Header -->
+<header class="bg-[var(--header)] fixed top-0 z-40 mx-auto min-h-[3.25rem] w-full header-icons">
+  <div class="mx-auto w-full max-w-4xl p-2.5 lg:flex lg:justify-between">
+    <div class="flex justify-between">
+      <div class="flex items-center min-h-8">
+        <a title="Go to home page" accesskey="!"
+          href="http://ocar.engineer/" class="text-2xl font-semibold">OnBIM</a>
+        <button type="button" title="Switch color scheme" accesskey="$"
+          onclick="window.linkita.toggleDarkMode();" ondblclick="window.linkita.resetDarkMode();"
+          class="btn-dark ml-4 h-6 w-6 shrink-0 cursor-pointer text-[0] bg-center bg-no-repeat bg-cover dark:invert [background-image:var(--icon-theme-dark)] dark:[background-image:var(--icon-theme-light)]"
+        ></button>
+      </div>
+      <div title="Menu" role="button" accesskey="+" tabindex="0"
+        class="btn-menu relative z-50 flex h-8 w-8 shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+        onclick="window.linkita.toggleHeaderMenu();"
+        onkeydown="(event.keyCode == 13 || event.keyCode == 32) ? event.preventDefault() || window.linkita.toggleHeaderMenu() : true;"
+      ></div>
+    </div>
+    <nav class="flex w-full items-center lg:w-auto">
+      <menu
+        class="nav-wrapper flex w-full flex-col py-2 lg:w-auto lg:flex-row lg:self-center lg:py-0">
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/posts/"
+          >Archive</a>
+        </li>
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/tags/"
+          >Tags</a>
+        </li>
+        <li>
+          <a
+            class="primary-link block py-2 text-center text-lg font-medium lg:px-3 lg:py-0"
+            href="http://ocar.engineer/about/"
+          >About</a>
+        </li>
+      </menu>
+      <!-- Begin Header Nav inject -->
+      
+      <!-- End Header Nav inject -->
+    </nav>
+  </div>
+</header>
+
+  <!-- Begin Body Start inject -->
+  
+  <!-- End Body Start inject -->
+  <main class="prose prose-neutral relative mx-auto min-h-[calc(100%-4rem)]
+    max-w-3xl break-words px-4 pb-12 pt-28 lg:pt-32 dark:prose-invert prose-pre:rounded-lg prose-img:rounded-lg">
+    
+<article>
+  <!-- Begin Page Start inject -->
+  
+  <!-- End Page Start inject -->
+
+  <header class="mb-16">
+    <h1 class="!my-0 pb-2.5">Running Deepseek locally</h1>
+    <!-- Page Info -->
+<div class="text-sm antialiased opacity-80"><time
+      datetime="2025-05-14T00:00:00+00:00">2025-05-14</time><span
+        class="mx-1">&middot;</span><time
+    datetime="PT0H6M0S">6&nbsp;min</time>
+</div>
+
+  </header>
+  <figure class="mb-12 mt-0">
+    <img
+      class="h-auto w-full rounded-lg"
+      src="http://ocar.engineer/img/20250515-Deepseek/deepseek-banner.png"
+      alt="Deepseek banner"
+      width="768"
+      height="288"
+    />
+  </figure>
+  <!-- TOC -->
+<div class="block-bg mb-12 rounded-lg p-2 text-lg">
+  <details>
+    <summary class="select-none py-0.5 lg:py-1 pl-4" accesskey="=">
+      <span class="cursor-pointer">Table of Contents</span>
+    </summary>
+    <div class="px-2">
+      <ul>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#what-is-deepseek">What is Deepseek?</a>
+          <ul>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#deepseek-model-variants">Deepseek Model Variants</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#about-distilled-models">About Distilled Models</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#hardware-and-software-requirements">Hardware and Software Requirements</a>
+          <ul>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#model-specific-requirements">Model-Specific Requirements</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#gpu-recommendations-by-model-size">GPU Recommendations by Model Size</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#general-hardware-recommendations">General Hardware Recommendations</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#gpu-compatibility">GPU Compatibility</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#software-requirements">Software Requirements</a>
+            </li>
+            <li>
+              <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#performance-notes">Performance Notes</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="no-underline hover:underline" href="http://ocar.engineer/posts/20250514-deepseekrequirements/#references">References</a>
+        </li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+  <!-- Content -->
+  <section><p>I have been asked to design a machine capable of running Deepseek locally for a company that is interested in leveraging AI to improve their processes. The company is strict about data governance, security, and—importantly—budget.</p>
+<span id="continue-reading"></span>
+<p>After some research, I decided to write up a guide on the requirements to run Deepseek locally. This serves both as a backup for myself and as a reference to share with the company. Below are my findings and recommendations to ensure you have the right machine for your intended use of the Deepseek AI model.</p>
+<h1 id="what-is-deepseek">What is Deepseek?</h1>
+<p>Deepseek is a family of large language models (LLMs) created by DeepSeek Technology Co., Ltd. Inspired by OpenAI's GPT-4, Deepseek models are available for free use and are designed for a wide range of tasks, including text generation, question answering, and natural language processing.</p>
+<p>The main motivation for implementing Deepseek at the company is to provide a tool that can interact with uploaded documents, extract and summarize information, answer questions, generate ideas and tables, and generally assist users with any request related to the content of those documents.</p>
+<h2 id="deepseek-model-variants">Deepseek Model Variants</h2>
+<p>Deepseek offers two main types of models:</p>
+<ul>
+<li><strong>Full Models:</strong> Large, high-accuracy models (often in the news) that require significant hardware resources.</li>
+<li><strong>Distilled Models:</strong> Smaller, optimized versions of the full models. These are much more hardware-friendly and suitable for local or budget-conscious deployments.</li>
+</ul>
+<h2 id="about-distilled-models">About Distilled Models</h2>
+<p>Distilled models are created by compressing larger models into smaller, faster, and more efficient versions, while retaining much of the original performance. This makes them ideal for local deployment, edge devices, or scenarios with limited hardware.</p>
+<h3 id="deepseek-distilled-model-comparison">Deepseek Distilled Model Comparison</h3>
+<table><thead><tr><th>Model Name</th><th>Parameters</th><th>File Size (FP16)</th><th>VRAM (Min)</th><th>System RAM</th><th>Typical Use Case</th></tr></thead><tbody>
+<tr><td>1.5B</td><td>1.5B</td><td>~3GB</td><td>0–8GB</td><td>8GB</td><td>Testing, small-scale tasks</td></tr>
+<tr><td>7B</td><td>7B</td><td>~14GB</td><td>8GB</td><td>16GB</td><td>Chatbots, document Q&amp;A</td></tr>
+<tr><td>8B</td><td>8B</td><td>~16GB</td><td>8GB</td><td>16GB</td><td>Chatbots, light summarization</td></tr>
+<tr><td>14B</td><td>14B</td><td>~28GB</td><td>16GB</td><td>32GB</td><td>Advanced Q&amp;A, summarization</td></tr>
+<tr><td>32B</td><td>32B</td><td>~64GB</td><td>24GB</td><td>64GB</td><td>High-quality, complex tasks</td></tr>
+<tr><td>70B</td><td>70B</td><td>~140GB</td><td>48GB+</td><td>128GB</td><td>Enterprise, multi-user</td></tr>
+<tr><td>671B (quant)</td><td>671B</td><td>~131GB (quant.)</td><td>131GB+</td><td>128GB+</td><td>Research, large-scale analysis</td></tr>
+</tbody></table>
+<ul>
+<li><strong>FP16</strong>: Half-precision floating point (standard for most LLMs)</li>
+<li><strong>Quantized</strong>: Lower-precision, smaller file size, lower VRAM needed but slower and less accurate</li>
+</ul>
+<h3 id="where-to-obtain-deepseek-models">Where to Obtain Deepseek Models</h3>
+<ul>
+<li><strong>Official Website:</strong> <a href="https://www.deepseek.com/">Deepseek</a> — links to model downloads and documentation.</li>
+<li><strong>Hugging Face:</strong> Many Deepseek model weights are hosted on <a href="https://huggingface.co/deepseek-ai">Hugging Face</a> (search for "deepseek" and select the desired version/size).</li>
+<li><strong>Community Forums:</strong> Reddit, Discord, and specialized AI forums often provide guides and links for downloading, quantizing, and running Deepseek models.</li>
+<li><strong>License:</strong> Most Deepseek models are available for free for research and commercial use, but always check the latest license terms.</li>
+</ul>
+<h3 id="when-to-use-each-model">When to Use Each Model</h3>
+<ul>
+<li><strong>1.5B–8B:</strong> For personal, prototyping, or small business use. Fast and can run on consumer hardware.</li>
+<li><strong>14B–32B:</strong> For higher accuracy, advanced summarization, or multi-user scenarios. Requires more powerful GPUs.</li>
+<li><strong>70B+:</strong> For enterprise, research, or production deployments with high concurrency or complex tasks. Needs multi-GPU or high-end setups.</li>
+</ul>
+<h1 id="hardware-and-software-requirements">Hardware and Software Requirements</h1>
+<p>To run Deepseek models efficiently, ensure your system meets the following requirements. These are based on the latest public documentation and community best practices.</p>
+<h2 id="model-specific-requirements">Model-Specific Requirements</h2>
+<h3 id="1-5b-model">1.5B Model</h3>
+<ul>
+<li>CPU no older than 10 years (modern multi-core CPU recommended).</li>
+<li>At least 8GB of RAM.</li>
+<li>Dedicated VRAM not required (CPU-only is sufficient).</li>
+<li>For faster inference, a dedicated GPU such as NVIDIA RTX 3060 (12GB VRAM) is recommended.</li>
+<li>Runs entirely on CPU or can use GPU for improved speed.</li>
+</ul>
+<h3 id="7b-and-8b-models">7B and 8B Models</h3>
+<ul>
+<li>Dedicated GPU required.</li>
+<li>At least 8GB of dedicated VRAM (e.g., Geforce RTX 3060 Ti).</li>
+<li>At least 16GB system RAM recommended.</li>
+</ul>
+<h3 id="14b-model">14B Model</h3>
+<ul>
+<li>Dedicated GPU required.</li>
+<li>At least 16GB of dedicated VRAM (e.g., Geforce RTX 4080).</li>
+<li>At least 32GB system RAM recommended.</li>
+</ul>
+<h3 id="32b-model">32B Model</h3>
+<ul>
+<li>Dedicated GPU required.</li>
+<li>At least 24GB of dedicated VRAM (e.g., Geforce RTX 3090).</li>
+<li>At least 64GB system RAM recommended.</li>
+</ul>
+<h3 id="70b-model">70B Model</h3>
+<ul>
+<li>Dedicated GPU required.</li>
+<li>48GB VRAM is the minimum for quantized models, but optimal performance (especially for full-precision or unquantized) may require 80–180GB VRAM, typically through multi-GPU setups (e.g., clusters of NVIDIA RTX 4090s or NVIDIA A100s).</li>
+<li>At least 128GB system RAM recommended.</li>
+</ul>
+<h3 id="671b-model-quantized-1-58-bit">671B Model (Quantized 1.58-bit)</h3>
+<ul>
+<li>Dedicated GPU(s) required.</li>
+<li>At least 131GB VRAM for quantized model (e.g., multiple high-end GPUs; previously required 480GB VRAM).</li>
+<li>At least 128GB system RAM (more recommended for optimal performance).</li>
+<li>Fast SSD storage (model file is ~131GB).</li>
+<li>Note: Performance will be slow on consumer hardware, but it is possible to run.</li>
+</ul>
+<h2 id="gpu-recommendations-by-model-size">GPU Recommendations by Model Size</h2>
+<table><thead><tr><th>Model Size</th><th>Recommended GPU(s)</th><th>VRAM Requirement</th></tr></thead><tbody>
+<tr><td>Small (1.5B)</td><td>NVIDIA RTX 3060</td><td>12GB (optional)</td></tr>
+<tr><td>Mid-Range (7B–8B)</td><td>NVIDIA RTX 3060/3080/4070</td><td>8–12GB</td></tr>
+<tr><td>High-End (14B–32B)</td><td>NVIDIA RTX 4090</td><td>12–24GB</td></tr>
+<tr><td>Enterprise (70B+)</td><td>NVIDIA RTX 4090/A100, Multi-GPU</td><td>48–180GB+</td></tr>
+</tbody></table>
+<h2 id="general-hardware-recommendations">General Hardware Recommendations</h2>
+<ul>
+<li><strong>System RAM:</strong> Should match or exceed the model's VRAM requirement (e.g., 128GB+ for 671B models).</li>
+<li><strong>Storage:</strong> SSD with sufficient space for model files (up to 150GB+ for quantized 671B).</li>
+<li><strong>CPU:</strong> Modern multi-core CPU (Intel i7/Ryzen 7 or better recommended for CPU-only models).</li>
+<li><strong>Power Supply:</strong> Sufficient wattage for multi-GPU setups.</li>
+<li><strong>Cooling:</strong> Adequate cooling for high-end GPUs and multi-GPU configurations.</li>
+</ul>
+<h2 id="gpu-compatibility">GPU Compatibility</h2>
+<ul>
+<li><strong>NVIDIA GPUs:</strong> CUDA toolkit required.</li>
+<li><strong>AMD GPUs:</strong> ROCm support if available (limited support in some frameworks).</li>
+</ul>
+<h2 id="software-requirements">Software Requirements</h2>
+<ul>
+<li><strong>Llama.cpp</strong>, <strong>Ollama</strong>, or similar inference engine (required for running quantized models).</li>
+<li><strong>Open WebUI</strong>, <strong>Chatbox</strong>, or other compatible UI for interaction.</li>
+<li><strong>CUDA Toolkit</strong> (for NVIDIA GPUs).</li>
+<li><strong>Latest GPU drivers</strong>.</li>
+</ul>
+<h2 id="performance-notes">Performance Notes</h2>
+<ul>
+<li>Even with optimal hardware, large models (especially 671B) will have slow inference speeds on non-enterprise hardware.</li>
+<li>For CPU-only setups, expect significantly slower performance.</li>
+</ul>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://www.reddit.com/r/selfhosted/comments/1iekz8o/beginner_guide_run_deepseekr1_671b_on_your_own/">Beginner Guide: Run Deepseek R1 671B on Your Own</a></li>
+<li><a href="https://docs.openwebui.com/tutorials/integrations/deepseekr1-dynamic/">Run DeepSeek R1 Dynamic 1.58-bit with Llama.cpp (Open WebUI)</a></li>
+<li><a href="https://www.deepseek.com/">Deepseek Official Website</a></li>
+<li><a href="https://www.novapcbuilder.com/news/2025-02-05-running-deepseek-llm-models-locally-on-your-pc">Nova PC Builder: Running DeepSeek LLM Models Locally on Your PC (2025)</a></li>
+</ul>
+</section>
+  <hr />
+  <!-- Post Taxonomies -->
+<footer class="mt-12 flex flex-col" tabindex="-1" accesskey="_">
+  <div class="mb-2 flex flex-wrap">
+    <span class="block-bg mb-1.5 mr-1.5 rounded-lg px-5 py-1.5">Tags</span>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/deepseek/">Deepseek</a>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/ai/">AI</a>
+    
+    <a
+      class="block-bg block-hover mb-1.5 mr-1.5 rounded-lg px-5 py-1.5 no-underline"
+      href="http://ocar.engineer/tags/requirements/">Requirements</a>
+    
+  </div>
+</footer>
+
+  <!-- Post Nav -->
+<nav class="block-bg mt-12 flex flex-wrap rounded-lg text-lg">
+  <a
+    class="block-hover-mask flex min-w-[50%] grow items-center rounded-l-md p-6 pr-3 font-semibold no-underline"
+    href="http://ocar.engineer/posts/20250515-deepseekserver/" accesskey=","
+    ><span class="mr-1.5">&#8249;</span><span>Custom Server for Deepseek &amp; Storage</span></a>
+  <a
+    class="block-hover-mask ml-auto flex min-w-[50%] grow items-center justify-end rounded-r-md p-6 pl-3 font-semibold no-underline"
+    href="http://ocar.engineer/posts/20250118-soilmoisturesensor/" accesskey="."
+    ><span>Smart Plant: Soil Moisture Sensor</span><span class="ml-1.5">&#8250;</span></a>
+</nav>
+
+  <!-- Begin Page End inject -->
+  
+  <!-- End Page End inject -->
+</article>
+
+  </main>
+  <!-- Footer -->
+<footer class="mx-auto flex lg:mt-5 max-w-3xl flex-wrap items-center px-4 py-3 text-sm opacity-60">
+  <div class="mr-auto basis-full lg:basis-1/2">
+  © <time datetime="2024">2024</time> - <time datetime="2025">2025</time> OnBim | <a href="https://creativecommons.org/licenses/by-sa/4.0/deed">CC BY-SA 4.0</a>
+  </div>
+  <div class="flex basis-full lg:basis-1/2 lg:justify-end">
+    <span class="mr-6 lg:ml-6">
+      <a class="link" href="https://www.getzola.org/" target="_blank">Powered by Zola</a>
+    </span>
+    <a class="link" href="https://www.getzola.org/themes/linkita/" target="_blank">&#9998; Linkita</a>
+  </div>
+  <!-- Begin Footer inject -->
+  
+  <!-- End Footer inject -->
+</footer>
+
+  
+
+  <!-- Begin Body End inject -->
+  
+  <!-- End Body End inject -->
+</body>
+
+</html>

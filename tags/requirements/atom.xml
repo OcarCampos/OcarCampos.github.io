@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>OnBIM - Requirements</title>
+    <link rel="self" type="application/atom+xml" href="http://ocar.engineer/tags/requirements/atom.xml"/>
+    <link rel="alternate" type="text/html" href="http://ocar.engineer"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2025-05-14T00:00:00+00:00</updated>
+    <id>http://ocar.engineer/tags/requirements/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Running Deepseek locally</title>
+        <published>2025-05-14T00:00:00+00:00</published>
+        <updated>2025-05-14T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              OcarCampos
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="http://ocar.engineer/posts/20250514-deepseekrequirements/"/>
+        <id>http://ocar.engineer/posts/20250514-deepseekrequirements/</id>
+        
+        <summary type="html">&lt;p&gt;I have been asked to design a machine capable of running Deepseek locally for a company that is interested in leveraging AI to improve their processes. The company is strict about data governance, security, and—importantly—budget.&lt;&#x2F;p&gt;</summary>
+        
+    </entry>
+</feed>
